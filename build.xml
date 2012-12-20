@@ -9,11 +9,13 @@
 	<property name="classes.dir" location="${build.dir}/classes" />
 	<property name="web_content.dir" location="WebContent" />
 	<property name="lib.dir" location="${web_content.dir}/WEB-INF/lib" />
+	<property name="lib.dir" location="${web_content.dir}/WEB-INF/lib" />
 	<property name="war.name" value="Team06dMVC.war" />
 	<property name="war.path" location="${dist.dir}/${war.name}" />  
 	
 	
 	<path id="compile.classpath">
+		
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
@@ -22,6 +24,9 @@
 	
 	<target name="war" depends="compile">
 		<mkdir dir="${dist.dir}" />
+		
+		<copy file="${src.dir}/META-INF/persistence.xml" todir="${classes.dir}/META-INF" overwrite="true" />
+
 		
 		<war destfile="${war.path}" webxml="${web_content.dir}/WEB-INF/web.xml">
 			<classes dir="${classes.dir}" />
