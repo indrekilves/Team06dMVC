@@ -12,4 +12,10 @@ public class GenericController {
 	public String showHomepage() {
 		return "index";
 	}
+    
+    
+    @RequestMapping(value = "/hello")
+	public String showHelloWorld() {
+		return "hello";
+	}
 }
