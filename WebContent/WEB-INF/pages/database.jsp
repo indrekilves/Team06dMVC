@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,13 +20,22 @@
 	</div>	
 	
 	<div id="content">
-		<div id="innerContainer">
-				Welcome to BoarderGuard webApplication.<br><br>
-<!-- 				First please <a href="DatabaseController">create database</a>.<br><br><br><br><br><br><br> -->
-<!-- 				Note: If something fails use <a href="DatabaseController?clearDbLock=true">clear db.lck</a> option. -->
-		</div>
+		<div id="innerContainer">	
+			<p class="lPad100">			
+				Test data inserted.
+				<br><br>Types<br>
+				<c:forEach var = "type" items="${types}" >
+					<c:out value="${type.name}"/><br>
+				</c:forEach>
+			
+			    <br><br>TypeSubordinates<br>	
+				<c:forEach var = "ts" items="${typeSubordinates}" >
+					<c:out value="${ts.bossId}"/> - <c:out value="${ts.subOrdinateId}"/><br>
+				</c:forEach>
+	
+			</p>
+		</div>	
 	</div>
-
 	<div id="footer">
 		<jsp:include page="footer.jsp"/>
 	</div>

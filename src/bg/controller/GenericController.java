@@ -13,9 +13,9 @@ public class GenericController {
 		return "index";
 	}
     
-    
-    @RequestMapping(value = "/hello")
-	public String showHelloWorld() {
-		return "hello";
-	}
+//    
+//    @RequestMapping(value = "/hello")
+//	public String showHelloWorld() {
+//		return "hello";
+//	}
 }
