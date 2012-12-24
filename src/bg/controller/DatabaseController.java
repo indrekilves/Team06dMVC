@@ -59,6 +59,7 @@ public class DatabaseController extends GenericController {
 	  	return "database";
 	}
 	
+
 	
 	
 	@RequestMapping(value = "/clearDbLock")
@@ -71,4 +72,15 @@ public class DatabaseController extends GenericController {
 	}
 	
 		
+	
+	
+	@RequestMapping(value = "/deleteDatabase")
+	public String deleteDatabase(ModelMap model){
+	  	
+		String status = databaseService.deleteDatabase();	
+	  	
+		model.addAttribute("status", status);
+	  	return "database";
+	}
+	
 }

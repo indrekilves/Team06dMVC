@@ -12,7 +12,9 @@
 		<a href="/Team06dMVC"		class="navigation">Home page</a><br>		
 		<a href="insertTestData"	class="navigation">Insert test data</a><br>
 		<a href="deleteAllData"		class="navigation">Delete all data</a><br>
+		<br><br><br>
  		<a href="clearDbLock"		class="navigation">Clear DB lock</a><br>
+ 		<a href="deleteDatabase"	class="navigation">Delete database</a><br>
 <!-- 		<a href="TypeController"						class="navigation">State Admin Unit Types</a><br> -->
 <!-- 		<a href="UnitController"						class="navigation">State Admin Units</a><br> -->
 <!-- 		<a href="UnitsReportController"					class="navigation">State Admin Units Report</a><br> -->

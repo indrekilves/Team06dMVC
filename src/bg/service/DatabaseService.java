@@ -88,23 +88,58 @@ public class DatabaseService extends GenericService {
 
 	
 
-	// Clear DB lock
+	// Delete database / Clear DB lock
 	
 	
 	
 	
+	public String deleteDatabase() {
+		String result = "";
+		
+		try {
+			
+			File scriptfile	 	= new File("/usr/share/tomcat7/i377/Team06dMVC/db.script");
+			File propertiesfile = new File("/usr/share/tomcat7/i377/Team06dMVC/db.properties");
+			
+			
+			result = clearDbLock();
+			
+			if (scriptfile.delete()) {
+				result = result + " " + scriptfile.getName() + " is deleted.";
+			} else {
+				result = result + " " + "Script file delete failed: "+scriptfile.getAbsolutePath();
+			}
+			
+			if (propertiesfile.delete()) {
+				result = result + " " + propertiesfile.getName() + " is deleted.";
+			} else {
+				result = result + " " + "Properties file delete failed: "+propertiesfile.getAbsolutePath();
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	
+	
+
 	public String clearDbLock() {
 		String clearResult = "";
 		
 		try {
 			
-			File lockfile = new File("/usr/share/tomcat7/i377/Team06dMVC/db.lck");
+			File lockfile 		= new File("/usr/share/tomcat7/i377/Team06dMVC/db.lck");
 			
 			if (lockfile.delete()) {
 				clearResult = lockfile.getName() + " is deleted.";
 			} else {
 				clearResult = "Lock file delete failed: "+lockfile.getAbsolutePath();
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,3 +148,4 @@ public class DatabaseService extends GenericService {
 	}
 	
 }
+
