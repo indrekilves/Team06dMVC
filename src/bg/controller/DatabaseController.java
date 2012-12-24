@@ -58,5 +58,17 @@ public class DatabaseController extends GenericController {
 		model.addAttribute("status", "All existing data is deleted.");
 	  	return "database";
 	}
+	
+	
+	
+	@RequestMapping(value = "/clearDbLock")
+	public String clearDbLock(ModelMap model){
+	  	
+		String status = databaseService.clearDbLock();	
+	  	
+		model.addAttribute("status", status);
+	  	return "database";
+	}
+	
 		
 }

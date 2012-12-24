@@ -1,5 +1,7 @@
 package bg.service;
 
+import java.io.File;
+
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -81,6 +83,33 @@ public class DatabaseService extends GenericService {
 		
 		em.persist(type);
 	    return type;
+	}
+
+
+	
+
+	// Clear DB lock
+	
+	
+	
+	
+	public String clearDbLock() {
+		String clearResult = "";
+		
+		try {
+			
+			File lockfile = new File("/usr/share/tomcat7/i377/Team06dMVC/db.lck");
+			
+			if (lockfile.delete()) {
+				clearResult = lockfile.getName() + " is deleted.";
+			} else {
+				clearResult = "Lock file delete failed: "+lockfile.getAbsolutePath();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return clearResult;
 	}
 	
 }
