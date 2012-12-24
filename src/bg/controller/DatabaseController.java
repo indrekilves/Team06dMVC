@@ -18,6 +18,10 @@ import bg.service.DatabaseService;
 @Controller
 public class DatabaseController extends GenericController {
 	
+	
+	// Properties 
+	
+	
 	@Resource
 	private DatabaseService databaseService;
 	
@@ -28,6 +32,8 @@ public class DatabaseController extends GenericController {
 	private TypeAssociationDao typeAssociationDao;
 	
 	
+	// Insert test data
+	
 	
 	@RequestMapping(value = "/insertTestData")
 	public String insertTestData(ModelMap model){
@@ -37,8 +43,8 @@ public class DatabaseController extends GenericController {
 	  	List <Type> types = typeDao.findAll();
 	  	List <TypeAssociation> typeAssociations = typeAssociationDao.findAll();
 	  	
-	  	System.out.println(types);
-	  	System.out.println(typeAssociations);
+	  	System.out.println("Inserted types: " + types);
+	  	System.out.println("Inserted type associations: " +typeAssociations);
 
 		model.addAttribute("status", "Test data is inserted.");
 	  	model.addAttribute("types", types);
@@ -48,6 +54,7 @@ public class DatabaseController extends GenericController {
 	}
 	
 	
+	// Delete all exsting data
 	
 	
 	@RequestMapping(value = "/deleteAllData")
@@ -59,7 +66,8 @@ public class DatabaseController extends GenericController {
 	  	return "database";
 	}
 	
-
+	
+	// Clear lock / delete database 
 	
 	
 	@RequestMapping(value = "/clearDbLock")
