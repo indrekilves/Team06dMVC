@@ -3,47 +3,60 @@ package bg.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
+import bg.dao.TypeAssociationDao;
 import bg.dao.TypeDao;
-import bg.dao.TypeSubordinateDao;
 import bg.domain.Type;
-import bg.domain.TypeSubordinate;
+import bg.domain.TypeAssociation;
+import bg.service.DatabaseService;
 
-
-//@Controller
-//public class DatabaseController  {
 
 @Controller
-//public class DatabaseController extends GenericController {
-public class DatabaseController {
+public class DatabaseController extends GenericController {
+	
+	@Resource
+	private DatabaseService databaseService;
 	
 	@Resource
 	private TypeDao typeDao;
 	
 	@Resource
-	private TypeSubordinateDao typeSubordinateDao;
+	private TypeAssociationDao typeAssociationDao;
 	
 	
-    @RequestMapping(value = "/insertTestData")
+	
+	@RequestMapping(value = "/insertTestData")
 	public String insertTestData(ModelMap model){
-    	
-    	typeDao.insertTestData();
-    	
-    	List <Type> types = typeDao.findAll();
-    	List <TypeSubordinate> typeSubordinates = typeSubordinateDao.findAll();
-    	
-    	System.out.println(types);
-    	System.out.println(typeSubordinates);
-    	
-    	model.addAttribute("types", types);
-    	model.addAttribute("typeSubordinates", typeSubordinates);
-    	
-    	return "database";
-	}
-   
+	  	
+		databaseService.insertTestData();	
+	  	
+	  	List <Type> types = typeDao.findAll();
+	  	List <TypeAssociation> typeAssociations = typeAssociationDao.findAll();
+	  	
+	  	System.out.println(types);
+	  	System.out.println(typeAssociations);
 
+		model.addAttribute("status", "Test data is inserted.");
+	  	model.addAttribute("types", types);
+	  	model.addAttribute("typeAssociations", typeAssociations);
+	  	
+	  	return "database";
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/deleteAllData")
+	public String deleteAllData(ModelMap model){
+	  	
+		databaseService.deleteExistingData();	
+	  	
+		model.addAttribute("status", "All existing data is deleted.");
+	  	return "database";
+	}
+		
 }

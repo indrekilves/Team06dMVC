@@ -9,25 +9,25 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import bg.domain.TypeSubordinate;
+import bg.domain.TypeAssociation;
 
 @Repository
-public class TypeSubordinateDao {
+public class TypeAssociationDao {
+	
+	
 
 	@PersistenceContext
     private EntityManager em;
-
 	
 	
-	
+		
 	// Find all
 	
 	
 	
     @Transactional(readOnly = true)
-    public List<TypeSubordinate> findAll() {
-        TypedQuery<TypeSubordinate> query = em.createQuery("from TypeSubordinate", TypeSubordinate.class);
+    public List<TypeAssociation> findAll() {
+        TypedQuery<TypeAssociation> query = em.createQuery("FROM TypeAssociation WHERE opened <= NOW() AND closed >= NOW()", TypeAssociation.class);
         return query.getResultList();
     }
-	
 }

@@ -7,43 +7,49 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
 
 
 @Entity
-public class Type {
+public class Type extends BaseEntity {
 
+	private static final long serialVersionUID = 1L;
+
+	
 	@Id
     @GeneratedValue
     @Column(name="type_id")
 	private Integer 	id;
 	
-	private String 		openedBy;
-	private Date   		opened;
-	private String 		changedBy;
-	private Date   		changed;
-	private String		closedBy;
-	private Date  		closed;
+
 	private String 		code;
 	private String 		name;
-	private String 		comment;
+	
 	private Date   		fromDate;
 	private Date   		toDate;
-	//private Type		bossType;
 	
-	@ManyToMany
-    @JoinTable(
-            name="typeSubordinate",
-            joinColumns={@JoinColumn(name="boss_id", referencedColumnName="type_id")},
-            inverseJoinColumns={@JoinColumn(name="subOrdinate_id", referencedColumnName="type_id")})
-	private List<Type> 	subordinateTypes;
+	
+	@OneToMany(mappedBy="boss")
+	private List<TypeAssociation> subOrdinateAssociations;
+	
+
+	@OneToMany(mappedBy="subOrdinate")
+	private List<TypeAssociation> bossAssociations;
+	
+
+	
+	// Constructors 
 	
 	
 	
 	
 	public Type() {}
+	
+	
+	
+	
+	// Getters / Setters
 	
 	
 
@@ -53,66 +59,6 @@ public class Type {
 	
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	
-	
-	
-	public String getOpenedBy() {
-		return openedBy;
-	}
-	
-	public void setOpenedBy(String openedBy) {
-		this.openedBy = openedBy;
-	}
-	
-	
-	
-	public Date getOpened() {
-		return opened;
-	}
-	
-	public void setOpened(Date opened) {
-		this.opened = opened;
-	}
-	
-	
-	
-	public String getChangedBy() {
-		return changedBy;
-	}
-	
-	public void setChangedBy(String changedBy) {
-		this.changedBy = changedBy;
-	}
-	
-	
-	
-	public Date getChanged() {
-		return changed;
-	}
-	
-	public void setChanged(Date changed) {
-		this.changed = changed;
-	}
-	
-	
-	
-	public String getClosedBy() {
-		return closedBy;
-	}
-	
-	public void setClosedBy(String closedBy) {
-		this.closedBy = closedBy;
-	}
-	
-	
-	
-	public Date getClosed() {
-		return closed;
-	}
-	
-	public void setClosed(Date closed) {
-		this.closed = closed;
 	}
 	
 	
@@ -137,16 +83,6 @@ public class Type {
 	
 	
 	
-	public String getComment() {
-		return comment;
-	}
-	
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-	
-	
-	
 	public Date getFromDate() {
 		return fromDate;
 	}
@@ -167,30 +103,39 @@ public class Type {
 	
 	
 	
-//	public Type getBossType() {
-//		return bossType;
-//	}
-//	
-//	public void setBossType(Type bossType) {
-//		this.bossType = bossType;
-//	}
-//	
 	
-	
-	public List<Type> getSubordinateTypes() {
-		return subordinateTypes;
-	}
-	
-	public void setSubordinateTypes(List<Type> subordinateTypes) {
-		this.subordinateTypes = subordinateTypes;
+	public List<TypeAssociation> getBossAssociations() {
+		return bossAssociations;
 	}
 
+	public void setBossAssociations(List<TypeAssociation> bossAssociations) {
+		this.bossAssociations = bossAssociations;
+	}
+
+
+
+	public List<TypeAssociation> getSubOrdinateAssociation() {
+		return subOrdinateAssociations;
+	}
+
+	public void setSubOrdinateAssociation(List<TypeAssociation> subOrdinateAssociation) {
+		this.subOrdinateAssociations = subOrdinateAssociation;
+	}
+
+
+
+	  
+	// Helpers 
 
 
 	@Override
 	public String toString() {
 		return "Type [id=" + id + ", code=" + code + ", name=" + name + "]";
 	}
+
+
+
+
 	
 	
 }

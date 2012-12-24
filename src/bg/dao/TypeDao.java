@@ -1,32 +1,46 @@
 package bg.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import bg.domain.Type;
+import bg.domain.TypeAssociation;
+import bg.service.GenericService;
 
 
 @Repository
 public class TypeDao {
 	
 	
+	
 	@PersistenceContext
     private EntityManager em;
 
 	
+
+	
+	public TypeDao(){}
 	
 	
+    @Transactional
+    public void store(Type type) {
+        em.persist(type);
+        //em.merge(type);
+    }
+	
+    
+    
+    
+    
+    
 	// Find all
 	
 	
@@ -34,91 +48,39 @@ public class TypeDao {
 	
     @Transactional(readOnly = true)
     public List<Type> findAll() {
-        TypedQuery<Type> query = em.createQuery("FROM Type", Type.class);
+        TypedQuery<Type> query = em.createQuery("FROM Type WHERE opened <= NOW() AND closed >= NOW()", Type.class);
         return query.getResultList();
     }
+
+
+
 	
 
-    
-    
-    // Delete 
-    
-    
-    
-    
-    public void delete(Type type) {
-    	Integer typeId = type.getId();
-        if (typeId != null) {
-        	delete(typeId);
-        }
-    }
 
-    
-    
-    @Transactional
-    public void delete(Integer typeId) {
-        Type type = em.find(Type.class, typeId);
-        if (type != null) {
-        	em.remove(type);
-        }
-    }
-	
-    
-    
-    
-    // Insert test data
-	
-    
-    
-    
-	@Transactional
-	public void insertTestData() {
-		deleteAllTypes();
+	public void addBossToType(Type boss, Type type) {
+		if (boss == null || type == null) return; 
 		
-        Type tKU = createType("KU", "Kula");
-        Type tVA = createType("VA", "Vald");
-        Type tKI = createType("KI", "Kihelkond");
-        Type tMA = createType("MA", "Maakond");
-        Type tRI = createType("RI", "Riik");
-        
-        em.persist(tKU);
-        em.persist(tVA);
-        em.persist(tKI);
-        em.persist(tMA);
-        em.persist(tRI);
-             
-        em.flush();
-        em.refresh(tKU);
-        em.refresh(tVA);
-        em.refresh(tKI);
-        em.refresh(tMA);
-        em.refresh(tRI);
-        
-        tRI.getSubordinateTypes().add(tMA);
-        tMA.getSubordinateTypes().add(tKI);
-        tKI.getSubordinateTypes().add(tVA);
-        tVA.getSubordinateTypes().add(tKU);
-	}
-	
-	
-	private void deleteAllTypes() {
-		em.createQuery("DELETE FROM TypeSubordinate").executeUpdate(); 
-        em.flush();
+		EntityManagerFactory 	emf = GenericService.getEntityManagerFactory();
+		EntityManager 			em 	= emf.createEntityManager();
+		em.getTransaction().begin();
 
-		em.createQuery("DELETE FROM Type").executeUpdate();
-        em.flush();
-
-	}
-	
-	
-
-	private Type createType(String code, String name) {
-		Type type = new Type();
+		List<TypeAssociation> associations = new ArrayList<TypeAssociation>();		
+		TypeAssociation association = new TypeAssociation();
+		association.setBoss(boss);
+		association.setSubOrdinate(type);
+		  
+		association.setBossId(boss.getId());
+		association.setSubOrdinateId(type.getId());
+		em.persist(association);
 		
-		type.setCode(code);
-		type.setName(name);
+		associations.add(association);
+		type.setBossAssociations(associations);
+		boss.setSubOrdinateAssociation(associations);
 		
-		return type;
+		
+		em.getTransaction().commit();		
+		em.close();
+		emf.close();
 	}
 
 }

@@ -18,11 +18,13 @@
 	</div>	
 	
 	<div id="content">
-		<div id="innerContainer">
-				Welcome to BoarderGuard webApplication.<br><br>
-<!-- 				First please <a href="DatabaseController">create database</a>.<br><br><br><br><br><br><br> -->
-<!-- 				Note: If something fails use <a href="DatabaseController?clearDbLock=true">clear db.lck</a> option. -->
-		</div>
+		<p class="lPad100">			
+			<br><br><br><br><br>
+			
+			Welcome to BoarderGuard webApplication.<br><br>
+ 			First please <a href="insertTestData">insert test data</a>.<br><br><br><br><br><br><br>
+ 			Note: If something fails use <a href="clearDbLock">clear db.lck</a> option. 
+		</p>
 	</div>
 
 	<div id="footer">

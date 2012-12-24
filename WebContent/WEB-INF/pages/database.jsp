@@ -20,22 +20,28 @@
 	</div>	
 	
 	<div id="content">
-		<div id="innerContainer">	
-			<p class="lPad100">			
-				Test data inserted.
-				<br><br>Types<br>
-				<c:forEach var = "type" items="${types}" >
-					<c:out value="${type.name}"/><br>
-				</c:forEach>
+		<br><br><br><br><br>
+		<p class="lPad100">			
+			<c:out value="${status}"/>
 			
-			    <br><br>TypeSubordinates<br>	
-				<c:forEach var = "ts" items="${typeSubordinates}" >
-					<c:out value="${ts.bossId}"/> - <c:out value="${ts.subOrdinateId}"/><br>
+
+			<c:if test="${not empty types}">
+				<br><br><b>Types:</b><br>
+				<c:forEach var = "type" items="${types}" >
+					<c:out value="${type.name}"/>, 
 				</c:forEach>
-	
-			</p>
-		</div>	
+			</c:if>
+			
+			<c:if test="${not empty typeAssociations}">
+			    <br><br><b>Type Associations:</b><br>	
+				<c:forEach var = "ta" items="${typeAssociations}" >
+					<c:out value="${ta.subOrdinate.name}"/> > <c:out value="${ta.boss.name}"/>, 
+				</c:forEach>
+			</c:if>
+			
+		</p>
 	</div>
+	
 	<div id="footer">
 		<jsp:include page="footer.jsp"/>
 	</div>

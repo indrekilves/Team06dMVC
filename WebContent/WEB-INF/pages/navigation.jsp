@@ -9,8 +9,9 @@
 <body>
 	<div class="pad10">
 	
-		<a href="/Team06dMVC"									class="navigation">Home page</a><br>		
-		<a href="insertTestData"					class="navigation">Insert test data</a><br>
+		<a href="/Team06dMVC"		class="navigation">Home page</a><br>		
+		<a href="insertTestData"	class="navigation">Insert test data</a><br>
+		<a href="deleteAllData"		class="navigation">Delete all data</a><br>
 <!-- 		<a href="DatabaseController?clearDbLock=true"	class="navigation">Clear DB lock</a><br> -->
 <!-- 		<a href="TypeController"						class="navigation">State Admin Unit Types</a><br> -->
 <!-- 		<a href="UnitController"						class="navigation">State Admin Units</a><br> -->

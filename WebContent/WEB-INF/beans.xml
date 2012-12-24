@@ -23,7 +23,7 @@
 
 
   <!-- to enable @Transactional annotations -->
-  <tx:annotation-driven transaction-manager="transactionManager" />
+  <tx:annotation-driven transaction-manager="transactionManager"/>
 
 
   <bean id="dataSource"

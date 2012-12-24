@@ -3,22 +3,22 @@
   xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence"
   version="1.0">
   
-    <persistence-unit name="my-hsql-unit" transaction-type="RESOURCE_LOCAL" />
+<!--     <persistence-unit name="my-hsql-unit" transaction-type="RESOURCE_LOCAL" /> -->
   
 
-<!--   <persistence-unit name="my-hsql-unit" transaction-type="RESOURCE_LOCAL" > -->
-<!--       <properties> -->
-<!--       <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" /> -->
-<!--       <property name="javax.persistence.jdbc.user" value="sa" /> -->
-<!--       <property name="javax.persistence.jdbc.password" value="" /> -->
-<!--       <property name="javax.persistence.jdbc.url" -->
-<!--         value="jdbc:hsqldb:file:${user.home}/i377/Team06dMVC/db;shutdown=true" /> -->
+  <persistence-unit name="my-hsql-unit" transaction-type="RESOURCE_LOCAL" >
+      <properties>
+      <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
+      <property name="javax.persistence.jdbc.user" value="sa" />
+      <property name="javax.persistence.jdbc.password" value="" />
+      <property name="javax.persistence.jdbc.url"
+        value="jdbc:hsqldb:file:${user.home}/i377/Team06dMVC/db;shutdown=true" />
 
-<!--       <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" /> -->
-<!--       <property name="hibernate.hbm2ddl.auto" value="update" /> -->
-<!--       <property name="hibernate.show_sql" value="true" /> -->
-<!--       <property name="hibernate.archive.autodetection" value="class" /> -->
-<!--     </properties> -->
-<!--   </persistence-unit> -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+      <property name="hibernate.hbm2ddl.auto" value="update" />
+      <property name="hibernate.show_sql" value="true" />
+      <property name="hibernate.archive.autodetection" value="class" />
+    </properties>
+  </persistence-unit>
 
 </persistence>
