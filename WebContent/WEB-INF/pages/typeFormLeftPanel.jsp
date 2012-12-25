@@ -36,11 +36,7 @@
 	    <!-- Subordinate -->
 	    
 	   	<tr class="tall">
-			<td>Subordinate of
-			<br>
-			<c:out value="${type.boss.id}"/>
-			<c:out value="${type.boss.name}"/>
-			</td>
+			<td>Subordinate of</td>
 			<td>
 	
 				 

@@ -164,8 +164,46 @@ public class Type extends BaseEntity {
 	}
 
 
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+		{
+			return true;
+		}
+		
+		if (obj == null)
+		{
+			return false;
+		}
+		
+		if (getClass() != obj.getClass())
+		{
+			return false;
+		}
+		
+		
+		Type otherType = (Type) obj;
+		if (this.id == null || otherType.getId() == null) 
+		{
+			return false;
+		} 
+		
+		
+		if (this.id == otherType.getId()){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 
+
+
+	
 	
 	
 }

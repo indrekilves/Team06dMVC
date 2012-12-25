@@ -183,6 +183,81 @@ public class TypeDao {
 	}
 
 
+	
+
+	// Find all possible bosses
+
+	
+	
+	
+	public List<Type> getAllPossibleBossTypesByType(Type type) {
+		List<Type> possibleTypes = new ArrayList<Type>();
+		List<Type> allTypes = getAllTypes();
+		
+		if (!allTypes.isEmpty()) {
+			for (Type validateType : allTypes) {
+				if (isTypeValidForBoss(validateType, type)){
+					possibleTypes.add(validateType);
+				}
+			}
+		}
+		
+		return possibleTypes;
+	}
+
+
+
+
+	private boolean isTypeValidForBoss(Type validateType, Type type) {
+		// can't be itself
+		if (type.equals(validateType)){
+			return false;
+		}
+		
+		// can't be subordinate
+		List <Type> subOrdinates = type.getSubOrdinates();
+		if (isTypeASubordinate(validateType, subOrdinates)) {
+			return false;
+		}
+			
+		return true;
+	}
+
+
+
+
+	private boolean isTypeASubordinate(Type validateType, List<Type> subOrdinates) {
+		if (subOrdinates != null && !subOrdinates.isEmpty()) 
+		{
+			for (Type subOrdinate : subOrdinates) 
+			{
+				if (validateType.equals(subOrdinate))
+				{
+					return true;
+				} 
+				else 
+				{
+					// is subOrdinate of subOrdinate
+					List<Type> subOrdinateSubOrdinates = getSubOrdinatesById(subOrdinate.getId());
+					if (subOrdinateSubOrdinates != null) 
+					{
+						if (isTypeASubordinate(validateType, subOrdinateSubOrdinates))
+						{
+							return true;
+						}
+					}					 
+				}
+			}			
+		}
+		
+		return false;
+	}
+
+
+
+
+
+
 
 
 }

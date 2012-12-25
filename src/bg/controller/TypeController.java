@@ -47,7 +47,7 @@ public class TypeController extends GenericController{
 	public String showTypeForm(HttpServletRequest request, @RequestParam("id") Integer id,  ModelMap model){
 	  	
 		Type type = typeDao.getTypeWithAssociationById(id);
-	  	List <Type> bossTypes = typeDao.getAllTypes();
+	  	List <Type> bossTypes = typeDao.getAllPossibleBossTypesByType(type); 
 	  	// TODO - find boss types
 
 	  	System.out.println("Show form for type: " + type);
