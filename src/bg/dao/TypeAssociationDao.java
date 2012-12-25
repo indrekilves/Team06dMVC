@@ -15,19 +15,66 @@ import bg.domain.TypeAssociation;
 public class TypeAssociationDao {
 	
 	
+	// Properties
 
+	
 	@PersistenceContext
     private EntityManager em;
 	
 	
-		
+	
+	
 	// Find all
 	
 	
 	
+	
     @Transactional(readOnly = true)
-    public List<TypeAssociation> findAll() {
-        TypedQuery<TypeAssociation> query = em.createQuery("FROM TypeAssociation WHERE opened <= NOW() AND closed >= NOW()", TypeAssociation.class);
-        return query.getResultList();
+    public List<TypeAssociation> getAllTypeAccociations() {
+    	TypedQuery<TypeAssociation> query = em.createQuery("FROM TypeAssociation WHERE opened <= NOW() AND closed >= NOW()", TypeAssociation.class);
+    	return query.getResultList();
     }
+
+    
+    
+
+    // Find all bosses
+    
+    
+    
+    
+    @Transactional(readOnly = true)
+	public List<TypeAssociation> getBossAssociationsById(Integer id) {
+    	if (id == null) return null;
+    	
+    	String sql = 	"FROM  TypeAssociation "  		+
+     					"WHERE subordinate_id = :id "	+
+     					"  AND opened <= NOW() " 		+
+     					"  AND closed >= NOW() " 		;
+        
+    	TypedQuery<TypeAssociation> query = em.createQuery(sql, TypeAssociation.class).setParameter("id", id);
+        return query.getResultList();
+	}
+
+    
+    
+
+    // Find all subordinates
+    
+    
+    
+
+    @Transactional(readOnly = true)
+	public List<TypeAssociation> getSubOrdinateAssociations(Integer id) {
+   	if (id == null) return null;
+    	
+    	String sql = 	"FROM  TypeAssociation " +
+     					"WHERE boss_id = :id "	 +
+     					"  AND opened <= NOW() " +
+     					"  AND closed >= NOW() " ;
+        
+    	TypedQuery<TypeAssociation> query = em.createQuery(sql, TypeAssociation.class).setParameter("id", id);
+        return query.getResultList();
+	}
+
 }

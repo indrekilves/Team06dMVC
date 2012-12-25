@@ -30,7 +30,7 @@ public class TypeController extends GenericController{
 	@RequestMapping(value = "/showTypesList")
 	public String showTypesList(ModelMap model){
 	  	
-	  	List <Type> types = typeDao.findAll();
+	  	List <Type> types = typeDao.getAllTypes();
 	  	
 	  	System.out.println("Show list of types: " + types);
 	  	
@@ -43,22 +43,19 @@ public class TypeController extends GenericController{
 	// Edit type
 	
 	
-	@RequestMapping(value = "/typesListAction", params = "exitMode=showSelectedEntry")
+	@RequestMapping(value = "/typesListAction", params = {"exitMode=showSelectedEntry", "id"})
 	public String showTypeForm(HttpServletRequest request, @RequestParam("id") Integer id,  ModelMap model){
 	  	
-		String action 		= "default";
-		String origin 		= request.getParameter("origin");
-		String exitMode		= request.getParameter("exitMode");		
-		String id2	 		= request.getParameter("id");
-		String subId 		= request.getParameter("subId");
+		Type type = typeDao.getTypeWithAssociationById(id);
+	  	List <Type> bossTypes = typeDao.getAllTypes();
+	  	// TODO - find boss types
+
+	  	System.out.println("Show form for type: " + type);
 	  	
-		List <Type> types = typeDao.findAll();
+	  	model.addAttribute("type", type);
+	  	model.addAttribute("bossTypes", bossTypes);
 	  	
-	  	System.out.println("Show list of types: " + types);
-	  	
-	  	model.addAttribute("types", types);
-	  	
-	  	return "typesList";
+	  	return "typeForm";
 	}
 	
 }

@@ -40,11 +40,11 @@ public class DatabaseController extends GenericController {
 	  	
 		databaseService.insertTestData();	
 	  	
-	  	List <Type> types = typeDao.findAll();
-	  	List <TypeAssociation> typeAssociations = typeAssociationDao.findAll();
+	  	List <Type> types = typeDao.getAllTypes();
+	  	List <TypeAssociation> typeAssociations = typeAssociationDao.getAllTypeAccociations();
 	  	
 	  	System.out.println("Inserted types: " + types);
-	  	System.out.println("Inserted type associations: " +typeAssociations);
+	  	System.out.println("Inserted type associations: " + typeAssociations);
 
 		model.addAttribute("status", "Test data is inserted.");
 	  	model.addAttribute("types", types);
@@ -54,7 +54,7 @@ public class DatabaseController extends GenericController {
 	}
 	
 	
-	// Delete all exsting data
+	// Delete all existing data
 	
 	
 	@RequestMapping(value = "/deleteAllData")

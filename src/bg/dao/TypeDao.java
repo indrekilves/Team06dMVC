@@ -3,6 +3,8 @@ package bg.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
@@ -10,6 +12,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import bg.domain.Type;
 import bg.domain.TypeAssociation;
@@ -20,14 +23,28 @@ import bg.service.GenericService;
 public class TypeDao {
 	
 	
+	// Properties 
+	
 	
 	@PersistenceContext
     private EntityManager em;
 
+	@Resource
+	private TypeAssociationDao typeAssociationDao;
 	
 
+	// Constructor
+	
+	
+	
 	
 	public TypeDao(){}
+	
+	
+	
+	
+	// Store
+	
 	
 	
     @Transactional
@@ -47,14 +64,97 @@ public class TypeDao {
 	
 	
     @Transactional(readOnly = true)
-    public List<Type> findAll() {
+    public List<Type> getAllTypes() {
         TypedQuery<Type> query = em.createQuery("FROM Type WHERE opened <= NOW() AND closed >= NOW()", Type.class);
         return query.getResultList();
     }
 
 
+    
+    
+    // Find one
+
+    
+    
+    
+    @Transactional(readOnly = true)
+	public Type getTypeById(Integer id) {
+    	if (id == null) return null;
+
+		// No need to check for dates
+        return em.find(Type.class, id);
+	}
+
+    
+    
+    
+    public Type getTypeWithAssociationById(Integer id) {
+    	if (id == null) return null;
+    	
+    	Type type = getTypeById(id);
+    	if (type == null) return null;
+    	
+    	
+    	// Boss
+    	Type boss = getBossById(type.getId());
+    	if (boss != null){
+    		type.setBoss(boss);
+    	}
+   	
+    	
+    	// Subordinate
+    	List<Type> subOrdinates = getSubOrdinatesById(type.getId());
+    	if (subOrdinates != null && !subOrdinates.isEmpty()){
+    		type.setSubOrdinates(subOrdinates);
+    	}
+    	
+    	return type;
+	}
+
+    
+
+
+	private Type getBossById(Integer id) {
+    	if (id == null) return null;
+    	
+    	List <TypeAssociation> bossAssociations = typeAssociationDao.getBossAssociationsById(id);
+    	if (bossAssociations == null || bossAssociations.isEmpty()) return null;
+
+    	Type boss = null;    	
+    	for (TypeAssociation bossAssociation : bossAssociations) {
+    		boss = bossAssociation.getBoss();
+    		
+    		if (boss != null){
+    			break; // get first real boss - there should be only one though
+    		}
+		}    	
+    	
+		return boss;
+	}
+
 
 	
+    private List<Type> getSubOrdinatesById(Integer id) {
+    	if (id == null) return null;
+    	
+    	List <TypeAssociation> subOrdinateAssociations = typeAssociationDao.getSubOrdinateAssociations(id);
+    	if (subOrdinateAssociations == null || subOrdinateAssociations.isEmpty()) return null;
+
+    	List<Type> subOrdinates = new ArrayList<Type>();    	
+    	for (TypeAssociation subOrdinateAssociation : subOrdinateAssociations) {
+    		Type subOrdinate = subOrdinateAssociation.getSubOrdinate();
+    		if (subOrdinate != null){
+    			subOrdinates.add(subOrdinate);
+    		}
+		}    	
+    	
+		return subOrdinates;
+	}
+
+    
+    
+    
+    // Add boss
 
 
 	public void addBossToType(Type boss, Type type) {
@@ -63,7 +163,7 @@ public class TypeDao {
 		EntityManagerFactory 	emf = GenericService.getEntityManagerFactory();
 		EntityManager 			em 	= emf.createEntityManager();
 		em.getTransaction().begin();
-
+		
 		List<TypeAssociation> associations = new ArrayList<TypeAssociation>();		
 		TypeAssociation association = new TypeAssociation();
 		association.setBoss(boss);
@@ -75,12 +175,14 @@ public class TypeDao {
 		
 		associations.add(association);
 		type.setBossAssociations(associations);
-		boss.setSubOrdinateAssociation(associations);
-		
+		boss.setSubOrdinateAssociations(associations);		
 		
 		em.getTransaction().commit();		
 		em.close();
 		emf.close();
 	}
+
+
+
 
 }
