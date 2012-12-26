@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import bg.dao.TypeDao;
 import bg.domain.Type;
-import bg.service.TypeService;
+import bg.validator.TypeValidator;
 
 @Controller
 public class TypeController extends GenericController{
@@ -31,12 +32,25 @@ public class TypeController extends GenericController{
 	
 	@Resource
 	private TypeDao typeDao;
-	
-	private TypeService typeService;
 
 	
-//	@Autowired
-//    private Validator validator;
+	private TypeValidator typeValidator;
+	
+	
+	
+	
+	// Constructors
+	
+	
+	
+	
+	@Autowired
+	public TypeController(TypeValidator typeValidator){
+		this.typeValidator = typeValidator;
+	}
+	
+	
+	
 	
 	// Init binder
 	
@@ -47,7 +61,6 @@ public class TypeController extends GenericController{
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
- 
 	}
 
 	
@@ -80,7 +93,6 @@ public class TypeController extends GenericController{
 	
 	@RequestMapping(value = "/typesListAction", params = {"mode=showSelectedEntry", "id"})
 	public String showTypeForm(@RequestParam("id") Integer id,  ModelMap model){
-	  	
 		Type type = typeDao.getTypeWithAssociationById(id);
 	  	List <Type> bossTypes = typeDao.getAllPossibleBossTypesByType(type); 
 
@@ -101,18 +113,41 @@ public class TypeController extends GenericController{
 	
 	
 	@RequestMapping(value = "/typeFormAction", params = "mode=saveForm", method = RequestMethod.POST)
-    public String saveForm(@ModelAttribute("type") Type type, BindingResult bindingResult, ModelMap model) {
+    public String saveForm(@ModelAttribute("type") Type type, BindingResult bindingResult, @RequestParam("bossId") Integer bossId, ModelMap model) {
 
-//        List<String> errors = typeService.getValidationErrors(type); 
-//        if (!errors.isEmpty()) {
-//            model.addAttribute("errors", errors);
-//            showTypeForm(type.getId(), model);
-//        }
+		typeValidator.validate(type, bindingResult);
+		if (bindingResult.hasErrors()) {
+			
+			return showTypeFormWithErrors(type, bossId, model);
+		}
 
         typeDao.save(type);
 
         return "redirect:showTypesList";
     }
+
+
+
+
+	private String showTypeFormWithErrors(Type type, Integer bossId, ModelMap model) {
+		// Reload boss
+		Type boss = typeDao.getTypeById(bossId);
+		type.setBoss(boss);
+
+		// Reload subordinates
+		List <Type> subOrdinates = typeDao.getSubOrdinatesById(type.getId());
+		type.setSubOrdinates(subOrdinates);
+		
+		// Reload bossTypes
+		List <Type> bossTypes = typeDao.getAllPossibleBossTypesByType(type); 
+		
+		System.out.println("Show form with errors for type: " + type);
+		
+		model.addAttribute("type", type);
+		model.addAttribute("bossTypes", bossTypes);
+		
+		return "typeForm";
+	}
 	
 	
 	

@@ -56,4 +56,6 @@
   </bean>
 
 
+  <bean class="bg.validator.TypeValidator" />
+
 </beans>

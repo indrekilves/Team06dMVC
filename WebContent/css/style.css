@@ -150,12 +150,10 @@ div.pad10{
   
 }
 
-/*
-#placeholder{ 
-  background-image: url(images/loading.gif); 
-  background-repeat: no-repeat; 
-  /*text-indent:-1000px;*/ 
-  font-weight:bold; 
+
+.formError {
+	color: red;
 }
-*/
+
+
 </style>

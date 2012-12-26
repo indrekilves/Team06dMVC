@@ -1,7 +1,5 @@
 package bg.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,7 +138,7 @@ public class TypeDao {
     
 
 
-	private Type getBossById(Integer id) {
+	public Type getBossById(Integer id) {
     	if (id == null) return null;
     	
     	List <TypeAssociation> bossAssociations = typeAssociationDao.getBossAssociationsById(id);
@@ -160,7 +158,7 @@ public class TypeDao {
 
 
 	
-    private List<Type> getSubOrdinatesById(Integer id) {
+    public List<Type> getSubOrdinatesById(Integer id) {
     	if (id == null) return null;
     	
     	List <TypeAssociation> subOrdinateAssociations = typeAssociationDao.getSubOrdinateAssociations(id);

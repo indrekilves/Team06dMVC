@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" 	uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" 		uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt"  	uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" 	uri="http://www.springframework.org/tags" %>
+
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -27,18 +29,27 @@
 	<div id="content">
 	 	<div class="pad10">
 	
-			<c:if test="${not empty errors}">
-				<div style="color: red">
-					<c:forEach var="error" items="${errors}">
-						<c:out value="${error}"></c:out>
-						<br />
-					</c:forEach>
-				</div>
-				<br />
-				<br />
-			</c:if>
+			
+			<div id="messages">
+			    <c:if test="${not empty statusMessageKey}">
+			       <p><fmt:message key="${statusMessageKey}"/></p>
+			    </c:if>
+			
+			    <spring:hasBindErrors name="type">
+			        <div class="formError">
+			        	<b>Errors:</b>
+			            <ul>
+				            <c:forEach var="error" items="${errors.allErrors}">
+				                <li>${error.defaultMessage}</li>
+				            </c:forEach>
+			            </ul>
+			        </div>
+			    </spring:hasBindErrors>
+			</div>
 		
-			<form method="POST" id="typeForm" action = "typeFormAction"> 
+		
+ 			<form method="POST" id="typeForm" action = "typeFormAction"> 
+	
 	
 				<input type="hidden" id="id"	name="id"		value="">					
 				<input type="hidden" id="subId" name="subId" 	value="">					
