@@ -67,7 +67,7 @@ public class DatabaseService extends GenericService {
 	    typeDao.addBossToType(tVA, tKU);
 	    typeDao.addBossToType(tKI, tVA);
 	    typeDao.addBossToType(tMA, tKI);
-	    typeDao.addBossToType(tRI, tRI);
+	    typeDao.addBossToType(tRI, tMA);
 
 	}
 	

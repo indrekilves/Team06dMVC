@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import bg.dao.TypeDao;
 import bg.domain.Type;
+import bg.service.TypeService;
 import bg.validator.TypeValidator;
 
 @Controller
@@ -33,9 +34,10 @@ public class TypeController extends GenericController{
 	@Resource
 	private TypeDao typeDao;
 
+	@Resource
+	private TypeService typeService;
 	
 	private TypeValidator typeValidator;
-	
 	
 	
 	
@@ -117,11 +119,12 @@ public class TypeController extends GenericController{
 
 		typeValidator.validate(type, bindingResult);
 		if (bindingResult.hasErrors()) {
-			
 			return showTypeFormWithErrors(type, bossId, model);
 		}
 
-        typeDao.save(type);
+        type = typeDao.save(type);
+        
+        typeService.updateBossByIds(type.getId(), bossId);
 
         return "redirect:showTypesList";
     }
@@ -130,13 +133,8 @@ public class TypeController extends GenericController{
 
 
 	private String showTypeFormWithErrors(Type type, Integer bossId, ModelMap model) {
-		// Reload boss
-		Type boss = typeDao.getTypeById(bossId);
-		type.setBoss(boss);
-
-		// Reload subordinates
-		List <Type> subOrdinates = typeDao.getSubOrdinatesById(type.getId());
-		type.setSubOrdinates(subOrdinates);
+		type = typeService.reloadTypeByBossId(type, bossId);
+		
 		
 		// Reload bossTypes
 		List <Type> bossTypes = typeDao.getAllPossibleBossTypesByType(type); 

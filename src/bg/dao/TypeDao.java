@@ -48,14 +48,16 @@ public class TypeDao {
 	
 	
     @Transactional
-    public void save(Type type) {
+    public Type save(Type type) {
         if (type.getId() == null) 
         {
-            em.persist(type);
+           em.persist(type);
+           return type;
         } 
         else 
         {
-        	merge(type);
+        	return merge(type);
+        	
         }
 
     }
@@ -64,7 +66,7 @@ public class TypeDao {
     /**
      * Need to update only the data that can changed on the form
      */
-    private void merge(Type newType) {
+    private Type merge(Type newType) {
     	Type oldType = getTypeById(newType.getId());
     	
     	oldType.setCode(newType.getCode());
@@ -73,7 +75,7 @@ public class TypeDao {
     	oldType.setFromDate(newType.getFromDate());
     	oldType.setToDate(newType.getToDate());
     	
-    	em.merge(oldType);
+    	return em.merge(oldType);
 	}
 
     
@@ -161,7 +163,7 @@ public class TypeDao {
     public List<Type> getSubOrdinatesById(Integer id) {
     	if (id == null) return null;
     	
-    	List <TypeAssociation> subOrdinateAssociations = typeAssociationDao.getSubOrdinateAssociations(id);
+    	List <TypeAssociation> subOrdinateAssociations = typeAssociationDao.getSubOrdinateAssociationsById(id);
     	if (subOrdinateAssociations == null || subOrdinateAssociations.isEmpty()) return null;
 
     	List<Type> subOrdinates = new ArrayList<Type>();    	

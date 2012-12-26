@@ -113,7 +113,7 @@ public class TypeAssociation extends BaseEntity {
 		String bossName 		= boss 			!= null ? boss.getName() 		: "NO BOSS";
 		String subOrdinateName 	= subOrdinate 	!= null ? subOrdinate.getName() : "NO SUBORDINATE";
 		
-		return "TypeAssociation [id=" + /*id + */ ", boss=" + bossName
+		return "TypeAssociation [boss=" + bossName
 				+ ", subOrdinate=" + subOrdinateName + "]";
 	}
 	
