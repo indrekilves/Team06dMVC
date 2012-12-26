@@ -162,9 +162,27 @@ public class TypeController extends GenericController{
 	
 	
 	
+	// Remove subOrdinate
 	
 	
 	
+	@RequestMapping(value = "/typeFormAction", params = {"mode=removeSubOrdinate", "subId"}, method = RequestMethod.POST)
+    public String removeSubOrdinate(@ModelAttribute("type") Type type, 
+    								BindingResult bindingResult, 
+    								@RequestParam("bossId") Integer bossId,
+    								@RequestParam("subId") Integer subId, 
+    								ModelMap model) {
+		// first save the type
+		String nextPage = saveForm(type, bindingResult, bossId, model);
+		if (bindingResult.hasErrors()){
+			return nextPage;
+		}
+
+		// then remove the subOrdinate
+		typeService.removeSubOrdinateByIds(type.getId(), subId);
+        return showTypeForm(type.getId(), model);
+    }
+
 	
 	
 }

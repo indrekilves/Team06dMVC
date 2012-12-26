@@ -90,7 +90,26 @@ public class TypeAssociationDao {
 	}
 
 
+    
 
+    // Remove subOrdinate
+
+    
+    
+    
+	public void removeSubOrdinateByIds(Integer id, Integer subOrdinateId) {
+		if (id == null || subOrdinateId == null) return;
+
+		TypeAssociation oldAssociation = getTypeAssociationByIDs(id, subOrdinateId);
+		
+		if (oldAssociation != null){
+			closeTypeAssociation(oldAssociation);
+		}	
+	}
+	
+    
+    
+    
     
     // Replace boss 
     
@@ -98,6 +117,8 @@ public class TypeAssociationDao {
     
 
 	public void replaceBossAssociation(Integer oldBossId, Integer newBossId, Integer subOrdinateId) {
+		if (subOrdinateId == null) return;
+		
 		TypeAssociation oldAssociation = getTypeAssociationByIDs(oldBossId, subOrdinateId);
 		
 		if (oldAssociation != null){
@@ -109,8 +130,13 @@ public class TypeAssociationDao {
 		}		
 	}
 
-
-
+	
+	
+	
+	// Find One
+	
+	
+	
 
 	@Transactional (readOnly=true)
 	private TypeAssociation getTypeAssociationByIDs(Integer bossId, Integer subOrdinateId) {
@@ -193,7 +219,9 @@ public class TypeAssociationDao {
 		
 		return typeAssociation;
 	}
-	
+
+
+
 
 
 }
