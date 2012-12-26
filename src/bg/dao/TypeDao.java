@@ -1,5 +1,7 @@
 package bg.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,12 +50,34 @@ public class TypeDao {
 	
 	
     @Transactional
-    public void store(Type type) {
-        em.persist(type);
-        //em.merge(type);
+    public void save(Type type) {
+        if (type.getId() == null) 
+        {
+            em.persist(type);
+        } 
+        else 
+        {
+        	merge(type);
+        }
+
     }
 	
-    
+	
+    /**
+     * Need to update only the data that can changed on the form
+     */
+    private void merge(Type newType) {
+    	Type oldType = getTypeById(newType.getId());
+    	
+    	oldType.setCode(newType.getCode());
+    	oldType.setName(newType.getName());
+    	oldType.setComment(newType.getComment());
+    	oldType.setFromDate(newType.getFromDate());
+    	oldType.setToDate(newType.getToDate());
+    	
+    	em.merge(oldType);
+	}
+
     
     
     
@@ -61,9 +85,11 @@ public class TypeDao {
 	// Find all
 	
 	
-	
-	
-    @Transactional(readOnly = true)
+
+
+
+
+	@Transactional(readOnly = true)
     public List<Type> getAllTypes() {
         TypedQuery<Type> query = em.createQuery("FROM Type WHERE opened <= NOW() AND closed >= NOW()", Type.class);
         return query.getResultList();
@@ -252,6 +278,37 @@ public class TypeDao {
 		
 		return false;
 	}
+
+
+	
+	
+	// Integrity checking 
+	
+	
+	
+
+	@Transactional (readOnly=true)
+	public boolean isCodeExisting(String code) 
+	{
+		if (code == null || code.length() < 1) 
+		{
+			return false;
+		}
+		
+		
+        TypedQuery<Type> query = em.createQuery("FROM Type WHERE UPPER(code) = :code", Type.class);
+        query.setParameter("code", code.toUpperCase());    
+        
+        
+        if (query.getSingleResult() != null)
+        {
+        	return true;
+        }
+        else
+        {
+        	return false;
+        }
+   	}
 
 
 

@@ -118,12 +118,11 @@ function cancelTypeSelect(id){
 
 
 
-function storeAndSubmit(id, exitMode){
+function storeAndSubmit(id, mode){
 	// FormID comes from calling *.js
 
 	setId(id);
-	setExitMode(exitMode);			
-	setOrigin(formId);			
+	setMode(mode);			
 	submitForm(formId);		
 }
 
@@ -158,18 +157,11 @@ function setTypeId(typeId){
 
 
 
-function setExitMode(exitMode){
-	var emWidget   = document.getElementById("exitMode");
-	emWidget.value = exitMode;
+function setMode(mode){
+	var modeWidget   = document.getElementById("mode");
+	modeWidget.value = mode;
 }
 
-
-
-
-function setOrigin(origin){
-	var originWidget   = document.getElementById("origin");
-	originWidget.value = origin;
-}
 
 
 

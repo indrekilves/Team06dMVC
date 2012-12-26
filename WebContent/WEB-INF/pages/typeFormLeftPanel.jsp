@@ -62,13 +62,20 @@
 		<tr class="tall">
 			<td>From</td>
 			<td>
-				<input 	name  = "fromDate" 
+<!-- 				<input 	name  = "fromDate"  -->
+<!-- 						type  = "text"  -->
+<!-- 						class = "datePicker" -->
+<%-- 						value ="${type.fromDate}"   --%>
+													
+<!-- 				 /> -->
+				 
+				 <input 	name  = "fromDate" 
 						type  = "text" 
 						class = "datePicker"
 						value ="<fmt:formatDate 	value   = "${type.fromDate}"  
-													type    = "date" 
-													pattern = "dd.MM.yyyy"/>"
-				 />
+ 													type    = "date" 
+ 													pattern = "dd.MM.yyyy"/>" 
+ 				 /> 
 			</td>
 			
 		</tr>
@@ -77,7 +84,13 @@
 		<tr class="tall">
 			<td>To</td>
 			<td>
-				<input 	name  = "toDate"
+<!-- 				<input 	name  = "toDate" -->
+<!-- 						class = "datePicker"  -->
+<!-- 						type  = "text" 						 -->
+<%-- 						value ="${type.toDate}"  --%>
+<!-- 				 /> -->
+				 
+				 <input 	name  = "toDate"
 						class = "datePicker" 
 						type  = "text" 						
 						value ="<fmt:formatDate 	value   = "${type.toDate}"  

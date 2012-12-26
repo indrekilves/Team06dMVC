@@ -40,10 +40,9 @@
 		
 			<form method="POST" id="typeForm" action = "typeFormAction"> 
 	
-				<input type="hidden" id="id"		name="id"		value="">					
-				<input type="hidden" id="subId" 	name="subId"	value="">					
-				<input type="hidden" id="origin" 	name="origin"	value="">					
-				<input type="hidden" id="exitMode"	name="exitMode"	value="">
+				<input type="hidden" id="id"	name="id"		value="">					
+				<input type="hidden" id="subId" name="subId" 	value="">					
+				<input type="hidden" id="mode"	name="mode"		value="">
 		
 					
 				<table>

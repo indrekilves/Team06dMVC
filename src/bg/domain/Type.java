@@ -8,7 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 
@@ -27,9 +32,16 @@ public class Type extends BaseEntity {
 	private Integer 					id;
 	
 	private String 						code;
+	
 	private String 						name;	
+
+	@DateTimeFormat(style="M-")
+    @Temporal( TemporalType.DATE)
 	private Date   						fromDate;
-	private Date   						toDate;	
+
+    @DateTimeFormat(style="M-")
+    @Temporal( TemporalType.DATE)
+    private Date   						toDate;	
 	
 	@OneToMany(mappedBy="boss")
 	private List<TypeAssociation> 		subOrdinateAssociations;
