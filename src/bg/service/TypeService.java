@@ -76,7 +76,20 @@ public class TypeService extends GenericService{
 		if (id == null || subId == null) return;
 		
 		typeAssociationDao.removeSubOrdinateByIds(id, subId);
+	}
 
+
+
+	
+	// Add subOrdinate
+	
+	
+	
+	
+	public void addSubOrdinateByIds(Integer id, Integer subId) {
+		if (id == null || subId == null) return;
+		
+		typeAssociationDao.addSubOrdinateByIds(id, subId);
 	}
 
 

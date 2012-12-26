@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -185,4 +184,45 @@ public class TypeController extends GenericController{
 
 	
 	
+	
+	// Add subOrdinate
+	
+
+	
+	@RequestMapping(value = "/typeFormAction", params = "mode=addSubOrdinate", method = RequestMethod.POST)
+    public String addSubOrdinate(@ModelAttribute("type") Type type, 
+    								BindingResult bindingResult, 
+    								@RequestParam("bossId") Integer bossId,
+    								ModelMap model) {
+		// first save the type
+		String nextPage = saveForm(type, bindingResult, bossId, model);
+		if (bindingResult.hasErrors()){
+			return nextPage;
+		}
+
+		// then add the subOrdinate
+		
+		type = typeDao.getTypeWithAssociationById(type.getId());
+		model.addAttribute("type", type);
+
+		List<Type> possibibleSubordinates = typeDao.getAllPossibleSubordinatesByType(type);
+		model.addAttribute("possibleSubordinates", possibibleSubordinates);
+
+        return "typePossibileSubordinatesList";
+    }
+	
+	
+	
+	@RequestMapping(value = "/typeFormAction", params = {"mode=selectSubOrdinate", "id", "subId"}, method = RequestMethod.POST)
+	private String saveSubOrdinate(@RequestParam("id") Integer id, @RequestParam("subId") Integer subId, ModelMap model) {
+		typeService.addSubOrdinateByIds(id, subId);
+		return showTypeForm(id, model);
+	}
+	
+	
+	@RequestMapping(value = "/typeFormAction", params = {"mode=cancelSubordinateSelect", "id"}, method = RequestMethod.POST)
+	private String cancelSubordinateSelect(@RequestParam("id") Integer id, ModelMap model) {
+		return showTypeForm(id, model);
+	}
+
 }

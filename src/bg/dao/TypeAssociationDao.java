@@ -133,6 +133,20 @@ public class TypeAssociationDao {
 	
 	
 	
+	// Add subOrdinate
+
+
+	
+
+	public void addSubOrdinateByIds(Integer bossId, Integer subOrdinateId) {
+		if (bossId == null || subOrdinateId == null) return;
+		
+		addTypeAssociationByIDs(bossId, subOrdinateId);		
+	}
+
+	
+	
+	
 	// Find One
 	
 	
@@ -219,9 +233,5 @@ public class TypeAssociationDao {
 		
 		return typeAssociation;
 	}
-
-
-
-
 
 }

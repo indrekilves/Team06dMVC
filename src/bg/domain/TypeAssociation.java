@@ -2,15 +2,14 @@ package bg.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 
 
 @Entity
-@IdClass(TypeAssociationId.class)
 public class TypeAssociation extends BaseEntity {
 
 	
@@ -20,10 +19,13 @@ public class TypeAssociation extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+    @GeneratedValue
+    @Column(name="typeAssociation_id")
+	private Integer id;
+	
 	@Column(name="boss_id")
 	private Integer	bossId;
     
-	@Id
 	@Column(name="subordinate_id")
     private Integer subOrdinateId;
 
@@ -37,16 +39,35 @@ public class TypeAssociation extends BaseEntity {
 	@PrimaryKeyJoinColumn(name="SUBORDINATE_ID", referencedColumnName="TYPE_ID")
 	private Type subOrdinate;
  
+	
+	
     
     // Constructors 
     
     
+	
+	
     public TypeAssociation(){}
+    
+    
     
     
     // Getters / Setters
     
+    
+    
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	
+	
 	public Integer getBossId() {
 		return bossId;
 	}

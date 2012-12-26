@@ -282,10 +282,84 @@ public class TypeDao {
 
 	
 	
+	// Find all possible subOrdinates
+	
+	
+
+
+	public List<Type> getAllPossibleSubordinatesByType(Type type) {
+		List<Type> possibleTypes = new ArrayList<Type>();
+		List<Type> allTypes = getAllTypes();
+		
+		if (!allTypes.isEmpty()){
+			for (Type validateType : allTypes) {
+				if (isTypeValidForSubordinate(validateType, type)){
+					possibleTypes.add(validateType);
+				}
+			}		
+		}
+		
+		return possibleTypes;	
+	}
+
+
+	private boolean isTypeValidForSubordinate(Type validateType, Type type) {
+		// can't be itself
+		if (validateType.getId() == type.getId()){
+			return false;
+		}
+		
+
+		// can't be subordinate
+		List<Type> subOrdinates = type.getSubOrdinates();
+		boolean isSubordinate = isTypeASubordinate(validateType, subOrdinates);
+		if (isSubordinate) {
+			return false;
+		}
+		
+		// can't be boss
+		Type boss = type.getBoss();
+		boolean isBoss = isTypeABoss(validateType, boss);
+		if (isBoss) {
+			return false;
+		}
+		
+		
+		return true;	
+	}
+
+
+	private boolean isTypeABoss(Type validateType, Type boss) {
+		if (boss != null)
+		{						
+			if (validateType.getId() == boss.getId())
+			{
+				return true;
+			} 
+			else 
+			{
+				// is bosses boss				
+				Type bossesBoss = getBossById(boss.getId());
+				if (bossesBoss != null) 
+				{
+					if (isTypeABoss(validateType, bossesBoss))
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+	
+
+	
+	
 	// Integrity checking 
-	
-	
-	
+
+
+
 
 	@Transactional (readOnly=true)
 	public boolean isCodeExisting(String code) 
@@ -309,12 +383,6 @@ public class TypeDao {
         	return false;
         }
    	}
-
-
-
-
-
-
 
 
 }
