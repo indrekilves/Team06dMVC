@@ -61,7 +61,7 @@ public class UnitController extends GenericController {
 	
 	
 	
-	@RequestMapping(value = "/showUnitsList")
+	@RequestMapping(value = "/showUnitsList", produces = "text/plain;charset=UTF-8")
 	public String showUnitsList(ModelMap model){
 	  	
 	  	List <Unit> units = unitDao.getAllUnits();
@@ -76,13 +76,35 @@ public class UnitController extends GenericController {
 	
 	
 	
+	// Remove type
+	
+
+	
+	
+	@RequestMapping(value = "/unitListAction", 
+					params = {"mode=removeSelectedEntry", "id"},
+					produces = "text/plain;charset=UTF-8")
+	public String removeType(@RequestParam("id") Integer id,  ModelMap model){
+	  	Unit unit = unitDao.getUnitById(id);
+	  	
+		System.out.println("Remove unit: " + unit);
+	  	
+		unitDao.closeUnit(unit);
+	  	
+	  	return "redirect:showUnitsList";
+	}
+	
+	
+	
 	
 	// Edit unit
 	
 	
 	
 	
-	@RequestMapping(value = "/unitListAction", params = {"mode=showSelectedEntry", "id"})
+	@RequestMapping(value = "/unitListAction", 
+					params = {"mode=showSelectedEntry", "id"},
+					produces = "text/plain;charset=UTF-8")
 	public String showUnitForm(@RequestParam("id") Integer id,  ModelMap model){
 		Unit unit = unitDao.getUnitWithAssociationById(id);
 	  	List <Unit> bossUnits = unitDao.getAllPossibleBossUnitsByUnit(unit); 
@@ -103,8 +125,14 @@ public class UnitController extends GenericController {
 	
 
 	
-	@RequestMapping(value = "/unitFormAction", params = "mode=saveForm", method = RequestMethod.POST)
-    public String saveUnitForm(@ModelAttribute("unit") Unit unit, BindingResult bindingResult, @RequestParam("bossId") Integer bossId, ModelMap model) {
+	@RequestMapping(value    = "/unitFormAction", 
+					params   = "mode=saveForm", 
+					method   = RequestMethod.POST,
+					produces = "text/plain;charset=UTF-8")
+    public String saveUnitForm(	@ModelAttribute("unit") Unit unit, 
+    							BindingResult bindingResult, 
+    							@RequestParam("bossId") Integer bossId, 
+    							ModelMap model) {
 
 		unitValidator.validate(unit, bindingResult);
 		if (bindingResult.hasErrors()) {
@@ -146,21 +174,22 @@ public class UnitController extends GenericController {
 	
 	
 	
-	@RequestMapping(value = "/unitFormAction", params = "mode=cancelForm")
+	@RequestMapping(value = "/unitFormAction", params = "mode=cancelForm", produces = "text/plain;charset=UTF-8")
     public String cancelForm() {
         return "redirect:showUnitsList";
     }	
 	
 	
-	
-	
-	
+
 	
 	// Remove subOrdinate
 	
 	
 	
-	@RequestMapping(value = "/unitFormAction", params = {"mode=removeSubOrdinate", "subId"}, method = RequestMethod.POST)
+	@RequestMapping(value = "/unitFormAction", 
+					params = {"mode=removeSubOrdinate", "subId"}, 
+					method = RequestMethod.POST,
+					produces = "text/plain;charset=UTF-8")
     public String removeSubOrdinate(@ModelAttribute("unit") Unit unit, 
     								BindingResult bindingResult, 
     								@RequestParam("bossId") Integer bossId,
@@ -187,7 +216,10 @@ public class UnitController extends GenericController {
 
 	
 	
-	@RequestMapping(value = "/unitFormAction", params = "mode=addSubOrdinate", method = RequestMethod.POST)
+	@RequestMapping(value = "/unitFormAction", 
+					params = "mode=addSubOrdinate", 
+					method = RequestMethod.POST,
+					produces = "text/plain;charset=UTF-8")
     public String addSubOrdinate(@ModelAttribute("unit") Unit unit, 
     								BindingResult bindingResult, 
     								@RequestParam("bossId") Integer bossId,
@@ -212,7 +244,10 @@ public class UnitController extends GenericController {
     }
 	
 	
-	@RequestMapping(value = "/unitFormAction", params = {"mode=selectSubOrdinate", "id", "subId"}, method = RequestMethod.POST)
+	@RequestMapping(value = "/unitFormAction", 
+					params = {"mode=selectSubOrdinate", "id", "subId"}, 
+					method = RequestMethod.POST,
+					produces = "text/plain;charset=UTF-8")
 	private String saveSubOrdinate(@RequestParam("id") Integer id, @RequestParam("subId") Integer subId, ModelMap model) {
 		unitService.addSubOrdinateByIds(id, subId);
 	  	System.out.println("Add subOrdinate (ID): " + subId + " to Unit (ID): " + id);
@@ -220,10 +255,15 @@ public class UnitController extends GenericController {
 	}
 
 
-	@RequestMapping(value = "/unitFormAction", params = {"mode=cancelSubordinateSelect", "id"}, method = RequestMethod.POST)
+	@RequestMapping(value = "/unitFormAction", 
+					params = {"mode=cancelSubordinateSelect", "id"}, 
+					method = RequestMethod.POST,
+					produces = "text/plain;charset=UTF-8")
 	private String cancelSubordinateSelect(@RequestParam("id") Integer id, ModelMap model) {
 		return showUnitForm(id, model);
 	}
+	
+	
 	
 	
 }

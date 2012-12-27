@@ -1,5 +1,6 @@
 package bg.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -232,6 +233,28 @@ public class UnitAssociationDao {
 		if (bossId == null || subOrdinateId == null) return;
 		
 		addUnitAssociationByIDs(bossId, subOrdinateId);				
+	}
+
+
+	
+
+	// Close all units
+
+	
+	
+	
+	public void closeAllTypeAssociationsById(Integer id) {
+		if (id == null) return;
+		
+		List <UnitAssociation> unitAssociations = new ArrayList<UnitAssociation>();
+		unitAssociations.addAll(getBossAssociationsById(id));
+		unitAssociations.addAll(getSubOrdinateAssociationsById(id));
+		
+		if (unitAssociations.isEmpty()) return;
+		
+		for (UnitAssociation unitAssociation : unitAssociations) {
+			closeUnitAssociation(unitAssociation);
+		}		
 	}
 	
 

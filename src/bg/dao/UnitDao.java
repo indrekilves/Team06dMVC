@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import bg.domain.BaseEntity;
 import bg.domain.Type;
 import bg.domain.Unit;
 import bg.domain.UnitAssociation;
@@ -409,6 +410,34 @@ public class UnitDao {
 		}
 
 		return false;
+	}
+
+
+	
+	
+	// Close unit
+
+	
+	
+
+	public void closeUnit(Unit unit) {
+		if (unit == null) return;
+		
+		// Close associations
+		unitAssociationDao.closeAllTypeAssociationsById(unit.getId());
+		
+		// Close type
+		EntityManagerFactory emf = GenericService.getEntityManagerFactory();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		
+		unit.setClosed(BaseEntity.getToday());
+		unit.setClosedBy(BaseEntity.getLoggedUserName());
+		em.merge(unit);
+		
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
 	}
 
 
