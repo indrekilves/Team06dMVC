@@ -51,7 +51,7 @@ public class TypeDao {
 	
 	
 	
-	// Store
+	// Save
 	
 	
 	

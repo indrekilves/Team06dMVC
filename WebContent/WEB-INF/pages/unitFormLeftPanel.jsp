@@ -60,7 +60,7 @@
 			<td>
 	
 				 
-			<select name="bossUnitId" id="bossUnitId">
+			<select name="bossId" id="bossId">
 				<option value=""></option>
 			
 				<c:forEach var="bossUnit" items="${bossUnits}">

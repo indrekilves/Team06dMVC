@@ -34,7 +34,7 @@
 			       <p><fmt:message key="${statusMessageKey}"/></p>
 			    </c:if>
 			
-			    <spring:hasBindErrors name="type">
+			    <spring:hasBindErrors name="unit">
 			        <div class="formError">
 			        	<b>Errors:</b>
 			            <ul>

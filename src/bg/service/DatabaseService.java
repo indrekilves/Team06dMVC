@@ -116,7 +116,7 @@ public class DatabaseService extends GenericService {
 	    Unit uKU01 = createUnit("KU01", "Kassi kula", "KU");
 	    Unit uKU02 = createUnit("KU02", "Toku kula",  "KU");
 	    Unit uKU03 = createUnit("KU03", "Londi kula", "KU");
-	    Unit uKU04 = createUnit("KU04", "Londi kula", "KU");
+	    Unit uKU04 = createUnit("KU04", "Lusti kula", "KU");
 	    
 	    Unit uVA01 = createUnit("VA01", "Urvaste vald", "VA");
 	    Unit uVA02 = createUnit("VA02", "Karula vald",  "VA");

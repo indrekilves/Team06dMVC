@@ -49,6 +49,44 @@ public class UnitDao {
 
 	
 	
+	// Save 
+	
+	
+	
+	@Transactional
+	public Unit save(Unit unit) {
+        if (unit.getId() == null) 
+        {
+           em.persist(unit);
+           return unit;
+        } 
+        else 
+        {
+        	return merge(unit);
+        	
+        }
+	}
+
+	
+    	
+    /**
+     * Need to update only the data that can changed on the form
+     */
+    private Unit merge(Unit newUnit) {
+    	Unit oldUnit = getUnitById(newUnit.getId());
+    	
+    	oldUnit.setCode(newUnit.getCode());
+    	oldUnit.setName(newUnit.getName());
+    	oldUnit.setComment(newUnit.getComment());
+    	oldUnit.setFromDate(newUnit.getFromDate());
+    	oldUnit.setToDate(newUnit.getToDate());
+    	
+    	return em.merge(oldUnit);
+	}
+
+	
+    
+	
 	// Find all 
 	
 	
@@ -110,7 +148,7 @@ public class UnitDao {
 	
 	
 	@Transactional(readOnly=true)
-	private Unit getUnitById(Integer id) {
+	public Unit getUnitById(Integer id) {
     	if (id == null) return null;
         Unit unit = em.find(Unit.class, id);
         
@@ -124,7 +162,7 @@ public class UnitDao {
 
 
 
-	private Unit getBossById(Integer id) {
+	public Unit getBossById(Integer id) {
     	if (id == null) return null;
     	
     	List <UnitAssociation> bossAssociations = unitAssociationDao.getBossAssociationsById(id);
@@ -145,7 +183,7 @@ public class UnitDao {
 
 
 
-	private List<Unit> getSubOrdinatesById(Integer id) {
+	public List<Unit> getSubOrdinatesById(Integer id) {
     	if (id == null) return null;
     	
     	List <UnitAssociation> subOrdinateAssociations = unitAssociationDao.getSubOrdinateAssociationsById(id);
@@ -265,6 +303,39 @@ public class UnitDao {
 		
 		return false;
 	}
+
+
+
+	
+	// Integrity checks
+	
+	
+	
+
+	public boolean isCodeExisting(String code) {
+		if (code == null || code.length() < 1) 
+		{
+			return false;
+		}
+
+		
+        TypedQuery<Unit> query = em.createQuery("FROM Unit WHERE UPPER(code) = :code", Unit.class);
+        query.setParameter("code", code.toUpperCase());    
+        List <Unit> existingUnits = query.getResultList();
+        
+        if (existingUnits.isEmpty())
+        {
+        	return false;
+        }
+        else
+        {
+        	return true;
+        }	
+    }
+
+
+
+
 
 
 

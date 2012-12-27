@@ -2,12 +2,14 @@ package bg.validator;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
 import bg.dao.TypeDao;
 import bg.domain.Type;
 
 
+@Component
 public class TypeValidator extends GenericValidator {
 
 	

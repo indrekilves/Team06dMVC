@@ -8,7 +8,7 @@
 </head>
 <body>
 <br>
-	BoarderGuard - Team06d
+	BoarderGuard - Team06d - MVC
 <br><br>
 </body>
 </html>

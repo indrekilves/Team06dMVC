@@ -36,19 +36,8 @@ public class TypeController extends GenericController{
 	@Resource
 	private TypeService typeService;
 	
+	@Resource
 	private TypeValidator typeValidator;
-	
-	
-	
-	// Constructors
-	
-	
-	
-	
-	@Autowired
-	public TypeController(TypeValidator typeValidator){
-		this.typeValidator = typeValidator;
-	}
 	
 	
 	
@@ -149,7 +138,7 @@ public class TypeController extends GenericController{
 	
 	
 	@RequestMapping(value = "/typeFormAction", params = "mode=saveForm", method = RequestMethod.POST)
-    public String saveForm(@ModelAttribute("type") Type type, BindingResult bindingResult, @RequestParam("bossId") Integer bossId, ModelMap model) {
+    public String saveTypeForm(@ModelAttribute("type") Type type, BindingResult bindingResult, @RequestParam("bossId") Integer bossId, ModelMap model) {
 
 		typeValidator.validate(type, bindingResult);
 		if (bindingResult.hasErrors()) {
@@ -209,7 +198,7 @@ public class TypeController extends GenericController{
     								@RequestParam("subId") Integer subId, 
     								ModelMap model) {
 		// first save the type
-		String nextPage = saveForm(type, bindingResult, bossId, model);
+		String nextPage = saveTypeForm(type, bindingResult, bossId, model);
 		if (bindingResult.hasErrors()){
 			return nextPage;
 		}
@@ -234,7 +223,7 @@ public class TypeController extends GenericController{
     								@RequestParam("bossId") Integer bossId,
     								ModelMap model) {
 		// first save the type
-		String nextPage = saveForm(type, bindingResult, bossId, model);
+		String nextPage = saveTypeForm(type, bindingResult, bossId, model);
 		if (bindingResult.hasErrors()){
 			return nextPage;
 		}
