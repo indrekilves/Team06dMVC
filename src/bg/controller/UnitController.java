@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import bg.dao.TypeDao;
 import bg.dao.UnitDao;
+import bg.domain.Type;
 import bg.domain.Unit;
 import bg.service.UnitService;
 import bg.validator.UnitValidator;
@@ -33,13 +36,15 @@ public class UnitController extends GenericController {
 	
 	@Resource
 	private UnitDao unitDao;
-
+	
 	@Resource
 	private UnitService unitService;
 
 	@Resource
 	private UnitValidator unitValidator;
 
+	@Resource
+	private TypeDao typeDao;
 
 	
 	
@@ -242,7 +247,7 @@ public class UnitController extends GenericController {
     								BindingResult bindingResult, 
     								@RequestParam("bossId") Integer bossId,
     								ModelMap model) {
-		// first save the type
+		// first save the unit
 		String nextPage = saveUnitForm(unit, bindingResult, bossId, model);
 		if (bindingResult.hasErrors()){
 			return nextPage;
@@ -262,7 +267,7 @@ public class UnitController extends GenericController {
     }
 	
 	
-	@RequestMapping(value = "/unitFormAction", 
+	@RequestMapping(value = "/addUnitSubordinateAction", 
 					params = {"mode=selectSubOrdinate", "id", "subId"}, 
 					method = RequestMethod.POST,
 					produces = "text/plain;charset=UTF-8")
@@ -273,7 +278,7 @@ public class UnitController extends GenericController {
 	}
 
 
-	@RequestMapping(value = "/unitFormAction", 
+	@RequestMapping(value = "/addUnitSubordinateAction", 
 					params = {"mode=cancelSubordinateSelect", "id"}, 
 					method = RequestMethod.POST,
 					produces = "text/plain;charset=UTF-8")
@@ -282,6 +287,66 @@ public class UnitController extends GenericController {
 	}
 	
 	
+	
+	
+	// Change type
+	
+	
+	
+	@RequestMapping(value = "/unitFormAction", 
+					params = "mode=changeType", 
+					method = RequestMethod.POST,
+					produces = "text/plain;charset=UTF-8")
+	public String changeType(@ModelAttribute("unit") Unit unit, 
+						BindingResult bindingResult, 
+						@RequestParam("bossId") Integer bossId,
+						ModelMap model) {
+
+		// first save the unit
+		String nextPage = saveUnitForm(unit, bindingResult, bossId, model);
+		if (bindingResult.hasErrors()){
+			return nextPage;
+		}
+
+		// then change the type		
+
+		System.out.println("Change Type for unit: " + unit);
+		
+		List<Type> types = typeDao.getAllTypes();
+
+		model.addAttribute("unit", unit);
+		model.addAttribute("types", types);
+				
+		return "unitTypesList";
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/changeTypeListAction", 
+					params = {"mode=selectType", "id", "typeId"}, 
+					method = RequestMethod.POST,
+					produces = "text/plain;charset=UTF-8")
+	public String selectType(	@RequestParam("id") Integer id, 
+								@RequestParam("typeId") Integer typeId,
+								ModelMap model) {
+		
+		unitService.changeTypeByIds(id, typeId); 
+		
+		System.out.println("Save Type for unit (ID): " + id + ". New type (ID): " + typeId);
+			
+		return showUnitForm(id, model);
+	}
+	
+	
+	
+	@RequestMapping(value = "/changeTypeListAction", 
+					params = {"mode=cancelTypeSelect", "id"}, 
+					method = RequestMethod.POST,
+					produces = "text/plain;charset=UTF-8")
+	public String cancelTypeSelect(@RequestParam("id") Integer id, ModelMap model) {
+		return showUnitForm(id, model);
+	}
 	
 	
 }

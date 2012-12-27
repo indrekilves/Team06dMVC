@@ -89,6 +89,7 @@ public class UnitDao {
     	oldUnit.setComment(newUnit.getComment());
     	oldUnit.setFromDate(newUnit.getFromDate());
     	oldUnit.setToDate(newUnit.getToDate());
+    	oldUnit.setTypeId(newUnit.getTypeId());
     	
     	return em.merge(oldUnit);
 	}

@@ -242,7 +242,7 @@ public class TypeController extends GenericController{
 	
 	
 	
-	@RequestMapping(value = "/typeFormAction", params = {"mode=selectSubOrdinate", "id", "subId"}, method = RequestMethod.POST)
+	@RequestMapping(value = "/addTypeSubordinateAction", params = {"mode=selectSubOrdinate", "id", "subId"}, method = RequestMethod.POST)
 	private String saveSubOrdinate(@RequestParam("id") Integer id, @RequestParam("subId") Integer subId, ModelMap model) {
 		typeService.addSubOrdinateByIds(id, subId);
 	  	System.out.println("Add subOrdinate (ID): " + subId + " from type (ID): " + id);
@@ -250,7 +250,7 @@ public class TypeController extends GenericController{
 	}
 	
 	
-	@RequestMapping(value = "/typeFormAction", params = {"mode=cancelSubordinateSelect", "id"}, method = RequestMethod.POST)
+	@RequestMapping(value = "/addTypeSubordinateAction", params = {"mode=cancelSubordinateSelect", "id"}, method = RequestMethod.POST)
 	private String cancelSubordinateSelect(@RequestParam("id") Integer id, ModelMap model) {
 		return showTypeForm(id, model);
 	}

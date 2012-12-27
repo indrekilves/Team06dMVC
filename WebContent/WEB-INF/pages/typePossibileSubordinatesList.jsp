@@ -25,7 +25,7 @@
 		<div class="pad10">
 			<b>Select subordinate for <c:out value="${type.name}"/></b><br><br>
 			
-			<form method="POST"	id="typePossibileSubordinatesList">
+			<form method="POST"	id="typePossibileSubordinatesList" action="addTypeSubordinateAction">
 
 				<input type="hidden" id="id"	name="id"		value="">
 				<input type="hidden" id="subId" name="subId"	value="">		

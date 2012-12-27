@@ -90,6 +90,15 @@ public class UnitService extends GenericService{
 		unitAssociationDao.addSubOrdinateByIds(bossId, subOrdinateId);		
 	}
 
+	
+	
+	// Change type
 
+
+	public void changeTypeByIds(Integer id, Integer typeId) {
+		Unit unit = unitDao.getUnitById(id);
+		unit.setTypeId(typeId);
+		unitDao.save(unit);
+	}
 
 }
