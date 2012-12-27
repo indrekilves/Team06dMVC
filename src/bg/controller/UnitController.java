@@ -5,24 +5,16 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.TypeMismatchException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import bg.dao.UnitDao;
 import bg.domain.Unit;
 import bg.service.UnitService;
@@ -159,4 +151,31 @@ public class UnitController extends GenericController {
         return "redirect:showUnitsList";
     }	
 	
+	
+	
+	
+	
+	
+	// Remove subOrdinate
+	
+	
+	
+	@RequestMapping(value = "/unitFormAction", params = {"mode=removeSubOrdinate", "subId"}, method = RequestMethod.POST)
+    public String removeSubOrdinate(@ModelAttribute("unit") Unit unit, 
+    								BindingResult bindingResult, 
+    								@RequestParam("bossId") Integer bossId,
+    								@RequestParam("subId") Integer subId, 
+    								ModelMap model) {
+		// first save the type
+		String nextPage = saveUnitForm(unit, bindingResult, bossId, model);
+		if (bindingResult.hasErrors()){
+			return nextPage;
+		}
+		
+	  	System.out.println("Remove subOrdinate (ID): " + subId + " from unit: " + unit);
+
+		// then remove the subOrdinate
+		unitService.removeSubOrdinateByIds(unit.getId(), subId);
+        return showUnitForm(unit.getId(), model);
+    }
 }

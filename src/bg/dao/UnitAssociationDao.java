@@ -202,4 +202,23 @@ public class UnitAssociationDao {
 		return unitAssociation;		
 	}
 
+
+
+
+    // Remove subOrdinate
+
+    
+    
+    
+	public void removeSubOrdinateByIds(Integer id, Integer subOrdinateId) {
+		if (id == null || subOrdinateId == null) return;
+
+		UnitAssociation oldAssociation = getUnitAssociationByIDs(id, subOrdinateId);
+		
+		if (oldAssociation != null){
+			closeUnitAssociation(oldAssociation);
+		}	
+	}
+	
+
 }

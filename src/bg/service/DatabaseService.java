@@ -113,10 +113,10 @@ public class DatabaseService extends GenericService {
     	em = emf.createEntityManager();
 		em.getTransaction().begin();
 
-	    Unit uKU01 = createUnit("KU01", "Kassi kula", "KU");
-	    Unit uKU02 = createUnit("KU02", "Toku kula",  "KU");
-	    Unit uKU03 = createUnit("KU03", "Londi kula", "KU");
-	    Unit uKU04 = createUnit("KU04", "Lusti kula", "KU");
+	    Unit uKU01 = createUnit("KU01", "Kassi küla", "KU");
+	    Unit uKU02 = createUnit("KU02", "Toku küla",  "KU");
+	    Unit uKU03 = createUnit("KU03", "Londi küla", "KU");
+	    Unit uKU04 = createUnit("KU04", "Lusti küla", "KU");
 	    
 	    Unit uVA01 = createUnit("VA01", "Urvaste vald", "VA");
 	    Unit uVA02 = createUnit("VA02", "Karula vald",  "VA");
@@ -124,7 +124,7 @@ public class DatabaseService extends GenericService {
 	    Unit uKI01 = createUnit("KI01", "Urvaste kihelkond", "KI");
 	    Unit uKI02 = createUnit("KI02", "Karula kihelkond",  "KI");
 
-	    Unit uMA01 = createUnit("MA01", "Voru maakond", "MA");
+	    Unit uMA01 = createUnit("MA01", "Võru maakond", "MA");
 
 	    Unit uRI01 = createUnit("RI01", "Eesti riik", "RI");
 

@@ -61,6 +61,20 @@ public class UnitService extends GenericService{
 		unitAssociationDao.replaceBossAssociation(oldBossId, newBossId, id);	
 	}
 
+	
+	
+	
+	// Remove subOrdinate
+
+	
+	
+
+	public void removeSubOrdinateByIds(Integer id, Integer subId) {
+		if (id == null || subId == null) return;
+		
+		unitAssociationDao.removeSubOrdinateByIds(id, subId);		
+	}
+
 
 
 }
