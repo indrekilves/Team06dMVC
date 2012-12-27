@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
+import bg.domain.Type;
 import bg.domain.Unit;
 import bg.domain.UnitAssociation;
 import bg.service.GenericService;
@@ -30,6 +31,9 @@ public class UnitDao {
 
 	@Resource
 	private UnitAssociationDao unitAssociationDao;
+
+	@Resource
+	private TypeDao typeDao;
 	
 	
 	
@@ -50,15 +54,35 @@ public class UnitDao {
 
 	public List<Unit> getAllUnits() {
 	     TypedQuery<Unit> query = em.createQuery("FROM Unit WHERE opened <= NOW() AND closed >= NOW()", Unit.class);
-	     return query.getResultList();
+	     List <Unit> units = query.getResultList();
+	     
+	     if (!units.isEmpty()){
+	    	 for (Unit unit : units) {
+				unit = setType(unit);
+			}
+	     }
+	     
+	     return units;
+	}
+	
+
+	private Unit setType(Unit unit) {
+		if (unit == null || unit.getTypeId() == null) return null;
+		
+		Type type = typeDao.getTypeById(unit.getTypeId());
+		if (type == null) return null;
+		
+		unit.setType(type);
+		return unit;
 	}
 
-	
+
 	
 	
 	// Add boss
 	
 	
+
 
 	public void addBossToUnit(Unit boss, Unit unit) {
 		if (boss == null || unit == null) return; 

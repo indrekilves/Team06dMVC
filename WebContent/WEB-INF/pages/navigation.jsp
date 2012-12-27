@@ -11,6 +11,7 @@
 	
 		<a href="/Team06dMVC"		class="navigation">Home page</a><br>	
 		<a href="showTypesList"		class="navigation">State Admin Unit Types</a><br>
+		<a href="showUnitsList"		class="navigation">State Admin Units</a><br>
 		<br><br><br> 			
 		<a href="insertTestData"	class="navigation">Insert test data</a><br>
 		<a href="deleteAllData"		class="navigation">Delete all data</a><br>
