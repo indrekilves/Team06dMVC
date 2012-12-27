@@ -87,6 +87,22 @@ public class TypeController extends GenericController{
 	
 	
 	
+	// Remove type
+	
+
+	
+	@RequestMapping(value = "/typesListAction", params = {"mode=removeSelectedEntry", "id"})
+	public String removeType(@RequestParam("id") Integer id,  ModelMap model){
+	  	Type type = typeDao.getTypeById(id);
+	  	
+		System.out.println("Remove type: " + type);
+	  	
+		typeDao.closeType(type);
+	  	
+	  	return "redirect:showTypesList";
+	}
+	
+	
 	// Edit type
 	
 	
@@ -123,6 +139,8 @@ public class TypeController extends GenericController{
 
         type = typeDao.save(type);
         
+	  	System.out.println("Save type: " + type);
+
         typeService.updateBossByIds(type.getId(), bossId);
 
         return "redirect:showTypesList";
@@ -138,7 +156,7 @@ public class TypeController extends GenericController{
 		// Reload bossTypes
 		List <Type> bossTypes = typeDao.getAllPossibleBossTypesByType(type); 
 		
-		System.out.println("Show form with errors for type: " + type);
+		System.out.println("Save failed - show form with errors for type: " + type);
 		
 		model.addAttribute("type", type);
 		model.addAttribute("bossTypes", bossTypes);
@@ -176,6 +194,8 @@ public class TypeController extends GenericController{
 		if (bindingResult.hasErrors()){
 			return nextPage;
 		}
+		
+	  	System.out.println("Remove subOrdinate (ID): " + subId + " from type: " + type);
 
 		// then remove the subOrdinate
 		typeService.removeSubOrdinateByIds(type.getId(), subId);
@@ -208,6 +228,8 @@ public class TypeController extends GenericController{
 		List<Type> possibibleSubordinates = typeDao.getAllPossibleSubordinatesByType(type);
 		model.addAttribute("possibleSubordinates", possibibleSubordinates);
 
+	  	System.out.println("Start adding subOrdinate to type: " + type + ". Possibile subOrdinates are: " + possibibleSubordinates);
+
         return "typePossibileSubordinatesList";
     }
 	
@@ -216,6 +238,7 @@ public class TypeController extends GenericController{
 	@RequestMapping(value = "/typeFormAction", params = {"mode=selectSubOrdinate", "id", "subId"}, method = RequestMethod.POST)
 	private String saveSubOrdinate(@RequestParam("id") Integer id, @RequestParam("subId") Integer subId, ModelMap model) {
 		typeService.addSubOrdinateByIds(id, subId);
+	  	System.out.println("Add subOrdinate (ID): " + subId + " from type (ID): " + id);
 		return showTypeForm(id, model);
 	}
 	

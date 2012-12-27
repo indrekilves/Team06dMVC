@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import bg.domain.BaseEntity;
 import bg.domain.Type;
 import bg.domain.TypeAssociation;
 import bg.service.GenericService;
@@ -383,6 +384,37 @@ public class TypeDao {
         	return false;
         }
    	}
+
+
+	
+
+	// Remove / close type
+
+	
+	
+	
+	public void closeType(Type type) {
+		if (type == null) return;
+		
+		// Close associations
+		typeAssociationDao.closeAllTypeAssociationsById(type.getId());
+		
+		// Close type
+		EntityManagerFactory emf = GenericService.getEntityManagerFactory();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		
+		type.setClosed(BaseEntity.getToday());
+		type.setClosedBy(BaseEntity.getLoggedUserName());
+		em.merge(type);
+		
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
+	}
+
+
+
 
 
 }

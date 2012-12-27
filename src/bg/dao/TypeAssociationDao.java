@@ -1,5 +1,6 @@
 package bg.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -47,7 +48,28 @@ public class TypeAssociationDao {
     	return query.getResultList();
     }
 
+
     
+    
+	// Remove all by ID
+
+    
+    
+    
+	public void closeAllTypeAssociationsById(Integer id) {
+		if (id == null) return;
+		
+		List <TypeAssociation> typeAssociations = new ArrayList<TypeAssociation>();
+		typeAssociations.addAll(getBossAssociationsById(id));
+		typeAssociations.addAll(getSubOrdinateAssociationsById(id));
+		
+		if (typeAssociations.isEmpty()) return;
+		
+		for (TypeAssociation typeAssociation : typeAssociations) {
+			closeTypeAssociation(typeAssociation);
+		}
+	}
+
     
 
     // Find all bosses
@@ -233,5 +255,7 @@ public class TypeAssociationDao {
 		
 		return typeAssociation;
 	}
+
+
 
 }
