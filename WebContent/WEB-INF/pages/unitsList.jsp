@@ -26,7 +26,7 @@
 			<b>State Admin Units</b><br><br>
 
 
-			<form method="POST" id="unitsList">
+			<form method="POST" id="unitsList" action="unitListAction">
 			
 				<input type="hidden" id="id"	name="id"	value="">					
 				<input type="hidden" id="mode"	name="mode"	value="">

@@ -52,4 +52,44 @@ public class UnitAssociationDao {
     	return query.getResultList();
 	}
 
+
+    
+    // Find bosses
+
+    
+
+    @Transactional(readOnly=true)
+	public List<UnitAssociation> getBossAssociationsById(Integer id) {
+    	if (id == null) return null;
+    	
+    	String sql = 	"FROM  UnitAssociation "  		+
+     					"WHERE subordinate_id = :id "	+
+     					"  AND opened <= NOW() " 		+
+     					"  AND closed >= NOW() " 		;
+        
+    	TypedQuery<UnitAssociation> query = em.createQuery(sql, UnitAssociation.class).setParameter("id", id);
+        return query.getResultList();
+	}
+
+    
+    
+    
+    // Find subOrdinates
+
+
+    
+
+    @Transactional(readOnly=true)
+	public List<UnitAssociation> getSubOrdinateAssociationsById(Integer id) {
+    	if (id == null) return null;
+    	
+    	String sql = 	"FROM  UnitAssociation " +
+     					"WHERE boss_id = :id "	 +
+     					"  AND opened <= NOW() " +
+     					"  AND closed >= NOW() " ;
+        
+    	TypedQuery<UnitAssociation> query = em.createQuery(sql, UnitAssociation.class).setParameter("id", id);
+        return query.getResultList();
+	}
+
 }

@@ -208,8 +208,43 @@ public class Unit extends BaseEntity{
 		return "Unit [id=" + id + ", code=" + code + ", name=" + name
 				+ ", typeId=" + typeId + "]";
 	}
+
+	
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+		{
+			return true;
+		}
 		
-	
-	
+		if (obj == null)
+		{
+			return false;
+		}
+		
+		if (getClass() != obj.getClass())
+		{
+			return false;
+		}
+		
+		
+		Unit otherUnit = (Unit) obj;
+		if (this.id == null || otherUnit.getId() == null) 
+		{
+			return false;
+		} 
+		
+		
+		if (this.id == otherUnit.getId()){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import bg.domain.Type;
 import bg.domain.Unit;
@@ -79,6 +80,91 @@ public class UnitDao {
 
 	
 	
+	// find one
+	
+
+	public Unit getUnitWithAssociationById(Integer id) {
+    	if (id == null) return null;
+    	
+    	Unit unit = getUnitById(id);
+    	if (unit == null) return null;
+    	
+    	
+    	// Boss
+    	Unit boss = getBossById(unit.getId());
+    	if (boss != null){
+    		unit.setBoss(boss);
+    	}
+   	
+    	
+    	// Subordinate
+    	List<Unit> subOrdinates = getSubOrdinatesById(unit.getId());
+    	if (subOrdinates != null && !subOrdinates.isEmpty()){
+    		unit.setSubOrdinates(subOrdinates);
+    	}
+    	
+    	return unit;
+	}
+	
+	
+	
+	
+	@Transactional(readOnly=true)
+	private Unit getUnitById(Integer id) {
+    	if (id == null) return null;
+        Unit unit = em.find(Unit.class, id);
+        
+        if (unit != null){
+        	unit = setType(unit);
+        }
+        
+        return unit;
+	}
+
+
+
+
+	private Unit getBossById(Integer id) {
+    	if (id == null) return null;
+    	
+    	List <UnitAssociation> bossAssociations = unitAssociationDao.getBossAssociationsById(id);
+    	if (bossAssociations == null || bossAssociations.isEmpty()) return null;
+
+    	Unit boss = null;    	
+    	for (UnitAssociation bossAssociation : bossAssociations) {
+    		boss = bossAssociation.getBoss();
+    		
+    		if (boss != null){
+    			break; // get first real boss - there should be only one though
+    		}
+		}    	
+    	
+		return boss;	
+	}
+
+
+
+
+	private List<Unit> getSubOrdinatesById(Integer id) {
+    	if (id == null) return null;
+    	
+    	List <UnitAssociation> subOrdinateAssociations = unitAssociationDao.getSubOrdinateAssociationsById(id);
+    	if (subOrdinateAssociations == null || subOrdinateAssociations.isEmpty()) return null;
+
+    	List<Unit> subOrdinates = new ArrayList<Unit>();    	
+    	for (UnitAssociation subOrdinateAssociation : subOrdinateAssociations) {
+    		Unit subOrdinate = subOrdinateAssociation.getSubOrdinate();
+    		if (subOrdinate != null){
+    			subOrdinates.add(subOrdinate);
+    		}
+		}    	
+    	
+		return subOrdinates;
+	}
+
+
+
+
 	// Add boss
 	
 	
@@ -108,6 +194,81 @@ public class UnitDao {
 		em.close();
 		emf.close();		
 	}
+
+
+
+
+	// Find all possible bosses
+
+	
+	
+	
+	public List<Unit> getAllPossibleBossUnitsByUnit(Unit unit) {
+		List<Unit> possibleUnits = new ArrayList<Unit>();
+		List<Unit> allUnits = getAllUnits();
+		
+		if (!allUnits.isEmpty()) {
+			for (Unit validateUnit : allUnits) {
+				if (isTypeValidForBoss(validateUnit, unit)){
+					possibleUnits.add(validateUnit);
+				}
+			}
+		}
+		
+		return possibleUnits;
+	}
+
+
+
+
+	private boolean isTypeValidForBoss(Unit validateUnit, Unit unit) {
+		// can't be itself
+		if (unit.equals(validateUnit)){
+			return false;
+		}
+		
+		// can't be subordinate
+		List <Unit> subOrdinates = unit.getSubOrdinates();
+		if (isTypeASubordinate(validateUnit, subOrdinates)) {
+			return false;
+		}
+			
+		return true;
+	}
+
+
+
+
+	private boolean isTypeASubordinate(Unit validateUnit, List<Unit> subOrdinates) {
+		if (subOrdinates != null && !subOrdinates.isEmpty()) 
+		{
+			for (Unit subOrdinate : subOrdinates) 
+			{
+				if (validateUnit.equals(subOrdinate))
+				{
+					return true;
+				} 
+				else 
+				{
+					// is subOrdinate of subOrdinate
+					List<Unit> subOrdinateSubOrdinates = getSubOrdinatesById(subOrdinate.getId());
+					if (subOrdinateSubOrdinates != null) 
+					{
+						if (isTypeASubordinate(validateUnit, subOrdinateSubOrdinates))
+						{
+							return true;
+						}
+					}					 
+				}
+			}			
+		}
+		
+		return false;
+	}
+
+
+
+
 
 
 
