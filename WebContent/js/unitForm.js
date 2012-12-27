@@ -27,7 +27,7 @@ function toggleTypeRelatedWidgets(typeId){
 
 	var isDisabled = (typeId) ? false : true;
 
-    document.getElementById('bossUnitId').disabled=isDisabled;
+    document.getElementById('bossId').disabled=isDisabled;
     document.getElementById('addSubOridinateUnit').disabled=isDisabled;
 }
 
