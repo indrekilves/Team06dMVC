@@ -52,20 +52,28 @@ public class UnitDao {
 	
 	// Save 
 	
+
 	
 	
-	@Transactional
 	public Unit save(Unit unit) {
+		EntityManagerFactory 	emf = GenericService.getEntityManagerFactory();
+		EntityManager 			em 	= emf.createEntityManager();
+		em.getTransaction().begin();
+		
         if (unit.getId() == null) 
         {
            em.persist(unit);
-           return unit;
         } 
         else 
         {
-        	return merge(unit);
-        	
+        	unit = merge(em, unit);
         }
+        		
+		em.getTransaction().commit();		
+		em.close();
+		emf.close();	
+		
+		return unit;
 	}
 
 	
@@ -73,7 +81,7 @@ public class UnitDao {
     /**
      * Need to update only the data that can changed on the form
      */
-    private Unit merge(Unit newUnit) {
+    private Unit merge(EntityManager em, Unit newUnit) {
     	Unit oldUnit = getUnitById(newUnit.getId());
     	
     	oldUnit.setCode(newUnit.getCode());
@@ -107,12 +115,13 @@ public class UnitDao {
 	
 
 	private Unit setType(Unit unit) {
-		if (unit == null || unit.getTypeId() == null) return null;
+		if (unit != null && unit.getTypeId() != null){
+			Type type = typeDao.getTypeById(unit.getTypeId());
+			if (type == null) return null;
+			
+			unit.setType(type);
+		}
 		
-		Type type = typeDao.getTypeById(unit.getTypeId());
-		if (type == null) return null;
-		
-		unit.setType(type);
 		return unit;
 	}
 

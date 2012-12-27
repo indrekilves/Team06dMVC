@@ -55,6 +55,8 @@ public class TypeService extends GenericService{
 		if (id == null) return;
 		
 		Type type = typeDao.getTypeWithAssociationById(id);
+		if (type == null) return;
+		
 		Type oldBoss = type.getBoss();
 
 		Integer oldBossId = oldBoss != null ? oldBoss.getId() : null;

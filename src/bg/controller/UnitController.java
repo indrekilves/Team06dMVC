@@ -84,7 +84,7 @@ public class UnitController extends GenericController {
 	@RequestMapping(value = "/unitListAction", 
 					params = {"mode=removeSelectedEntry", "id"},
 					produces = "text/plain;charset=UTF-8")
-	public String removeType(@RequestParam("id") Integer id,  ModelMap model){
+	public String removeUnit(@RequestParam("id") Integer id,  ModelMap model){
 	  	Unit unit = unitDao.getUnitById(id);
 	  	
 		System.out.println("Remove unit: " + unit);
@@ -92,6 +92,24 @@ public class UnitController extends GenericController {
 		unitDao.closeUnit(unit);
 	  	
 	  	return "redirect:showUnitsList";
+	}
+	
+	
+	
+	
+	// Add type
+	
+	
+	
+	
+	@RequestMapping(value = "/unitListAction", params = "mode=addEntry")
+	public String addUnit(ModelMap model){
+	 	System.out.println("Start adding new unit.");
+	 	
+	  	List <Unit> bossUnits = unitDao.getAllUnits(); 
+	  	model.addAttribute("bossUnits", bossUnits);
+	  	
+	  	return "unitForm";
 	}
 	
 	

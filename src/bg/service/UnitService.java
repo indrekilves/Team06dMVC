@@ -52,8 +52,9 @@ public class UnitService extends GenericService{
 		if (id == null) return;
 		
 		Unit unit = unitDao.getUnitWithAssociationById(id);
+		if (unit == null) return;
+		
 		Unit oldBoss = unit.getBoss();
-
 		Integer oldBossId = oldBoss != null ? oldBoss.getId() : null;
 	
 		if (oldBossId == newBossId) return;
