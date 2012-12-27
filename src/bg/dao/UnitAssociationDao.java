@@ -219,6 +219,20 @@ public class UnitAssociationDao {
 			closeUnitAssociation(oldAssociation);
 		}	
 	}
+
+
+	
+
+	// Add subOrdinate
+	
+	
+	
+
+	public void addSubOrdinateByIds(Integer bossId, Integer subOrdinateId) {
+		if (bossId == null || subOrdinateId == null) return;
+		
+		addUnitAssociationByIDs(bossId, subOrdinateId);				
+	}
 	
 
 }

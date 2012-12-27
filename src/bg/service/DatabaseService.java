@@ -71,7 +71,7 @@ public class DatabaseService extends GenericService {
     	em = emf.createEntityManager();
 		em.getTransaction().begin();
 
-	    Type tKU = createType("KU", "Kula");
+	    Type tKU = createType("KÜ", "Küla");
 	    Type tVA = createType("VA", "Vald");
 	    Type tKI = createType("KI", "Kihelkond");
 	    Type tMA = createType("MA", "Maakond");
@@ -113,10 +113,10 @@ public class DatabaseService extends GenericService {
     	em = emf.createEntityManager();
 		em.getTransaction().begin();
 
-	    Unit uKU01 = createUnit("KU01", "Kassi küla", "KU");
-	    Unit uKU02 = createUnit("KU02", "Toku küla",  "KU");
-	    Unit uKU03 = createUnit("KU03", "Londi küla", "KU");
-	    Unit uKU04 = createUnit("KU04", "Lusti küla", "KU");
+	    Unit uKU01 = createUnit("KÜ01", "Kassi küla", "KÜ");
+	    Unit uKU02 = createUnit("KÜ02", "Toku küla",  "KÜ");
+	    Unit uKU03 = createUnit("KÜ03", "Londi küla", "KÜ");
+	    Unit uKU04 = createUnit("KÜ04", "Lusti küla", "KÜ");
 	    
 	    Unit uVA01 = createUnit("VA01", "Urvaste vald", "VA");
 	    Unit uVA02 = createUnit("VA02", "Karula vald",  "VA");

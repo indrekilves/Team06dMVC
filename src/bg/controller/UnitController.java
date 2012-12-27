@@ -178,4 +178,52 @@ public class UnitController extends GenericController {
 		unitService.removeSubOrdinateByIds(unit.getId(), subId);
         return showUnitForm(unit.getId(), model);
     }
+	
+	
+	
+	
+	// Add subOrdinate
+	
+
+	
+	
+	@RequestMapping(value = "/unitFormAction", params = "mode=addSubOrdinate", method = RequestMethod.POST)
+    public String addSubOrdinate(@ModelAttribute("unit") Unit unit, 
+    								BindingResult bindingResult, 
+    								@RequestParam("bossId") Integer bossId,
+    								ModelMap model) {
+		// first save the type
+		String nextPage = saveUnitForm(unit, bindingResult, bossId, model);
+		if (bindingResult.hasErrors()){
+			return nextPage;
+		}
+
+		// then add the subOrdinate
+		
+		unit = unitDao.getUnitWithAssociationById(unit.getId());
+		model.addAttribute("unit", unit);
+
+		List<Unit> possibibleSubordinates = unitDao.getAllPossibleSubordinatesByUnit(unit);
+		model.addAttribute("possibleSubordinates", possibibleSubordinates);
+
+	  	System.out.println("Start adding subOrdinate to unit: " + unit + ". Possibile subOrdinates are: " + possibibleSubordinates);
+
+        return "unitPossibileSubordinatesList";
+    }
+	
+	
+	@RequestMapping(value = "/unitFormAction", params = {"mode=selectSubOrdinate", "id", "subId"}, method = RequestMethod.POST)
+	private String saveSubOrdinate(@RequestParam("id") Integer id, @RequestParam("subId") Integer subId, ModelMap model) {
+		unitService.addSubOrdinateByIds(id, subId);
+	  	System.out.println("Add subOrdinate (ID): " + subId + " to Unit (ID): " + id);
+		return showUnitForm(id, model);
+	}
+
+
+	@RequestMapping(value = "/unitFormAction", params = {"mode=cancelSubordinateSelect", "id"}, method = RequestMethod.POST)
+	private String cancelSubordinateSelect(@RequestParam("id") Integer id, ModelMap model) {
+		return showUnitForm(id, model);
+	}
+	
+	
 }

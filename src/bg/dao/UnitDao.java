@@ -247,7 +247,7 @@ public class UnitDao {
 		
 		if (!allUnits.isEmpty()) {
 			for (Unit validateUnit : allUnits) {
-				if (isTypeValidForBoss(validateUnit, unit)){
+				if (isUnitValidForBoss(validateUnit, unit)){
 					possibleUnits.add(validateUnit);
 				}
 			}
@@ -259,7 +259,7 @@ public class UnitDao {
 
 
 
-	private boolean isTypeValidForBoss(Unit validateUnit, Unit unit) {
+	private boolean isUnitValidForBoss(Unit validateUnit, Unit unit) {
 		// can't be itself
 		if (unit.equals(validateUnit)){
 			return false;
@@ -332,6 +332,84 @@ public class UnitDao {
         	return true;
         }	
     }
+
+	
+	
+
+	// Find all possible subOrdinates
+
+	
+	
+
+	public List<Unit> getAllPossibleSubordinatesByUnit(Unit unit) {
+		List<Unit> possibleUnits = new ArrayList<Unit>();
+		List<Unit> allUnits = getAllUnits();
+		
+		if (!allUnits.isEmpty()){
+			for (Unit validateUnit : allUnits) {
+				if (isUnitValidForSubordinate(validateUnit, unit)){
+					possibleUnits.add(validateUnit);
+				}
+			}		
+		}
+		
+		return possibleUnits;	
+	}
+
+
+
+
+	private boolean isUnitValidForSubordinate(Unit validateUnit, Unit unit) {
+		// can't be itself
+		if (validateUnit.getId() == unit.getId()){
+			return false;
+		}
+		
+
+		// can't be subordinate
+		List<Unit> subOrdinates = unit.getSubOrdinates();
+		boolean isSubordinate = isTypeASubordinate(validateUnit, subOrdinates);
+		if (isSubordinate) {
+			return false;
+		}
+		
+		// can't be boss
+		Unit boss = unit.getBoss();
+		boolean isBoss = isUnitABoss(validateUnit, boss);
+		if (isBoss) {
+			return false;
+		}
+		
+		
+		return true;	
+	}
+
+
+
+
+	private boolean isUnitABoss(Unit validateUnit, Unit boss) {
+		if (boss != null)
+		{						
+			if (validateUnit.getId() == boss.getId())
+			{
+				return true;
+			} 
+			else 
+			{
+				// is bosses boss				
+				Unit bossesBoss = getBossById(boss.getId());
+				if (bossesBoss != null) 
+				{
+					if (isUnitABoss(validateUnit, bossesBoss))
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
 
 
 

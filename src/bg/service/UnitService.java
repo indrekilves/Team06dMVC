@@ -75,6 +75,20 @@ public class UnitService extends GenericService{
 		unitAssociationDao.removeSubOrdinateByIds(id, subId);		
 	}
 
+	
+	
+	
+	// Add subOrdinate
+
+	
+	
+
+	public void addSubOrdinateByIds(Integer bossId, Integer subOrdinateId) {
+		if (bossId == null || subOrdinateId == null) return;
+		
+		unitAssociationDao.addSubOrdinateByIds(bossId, subOrdinateId);		
+	}
+
 
 
 }
