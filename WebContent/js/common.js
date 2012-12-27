@@ -12,7 +12,7 @@ document.write("<script src='js/my_jquery_functions.js'></script>");
 
 
 
-// Entry points from Unit and UnitType lists 
+// Entry points from Unit and Type lists 
 
 
 
@@ -38,7 +38,7 @@ function addEntry() {
 
 
 
-// Entry points from Unit and UnitType forms 
+// Entry points from Unit and Type forms 
 
 
 
@@ -74,7 +74,7 @@ function addSubOrdinate(id) {
 
 
 
-//Entry points from Unit and UnitType possible subOrdinates lists 
+//Entry points from Unit and Type possible subOrdinates lists 
 
 
 

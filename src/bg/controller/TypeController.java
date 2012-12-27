@@ -103,6 +103,25 @@ public class TypeController extends GenericController{
 	}
 	
 	
+	
+	
+	// Add type
+	
+	
+	
+	
+	@RequestMapping(value = "/typesListAction", params = "mode=addEntry")
+	public String addType(ModelMap model){
+	 	System.out.println("Start adding new type.");
+	 	
+	  	List <Type> bossTypes = typeDao.getAllTypes(); 
+	  	model.addAttribute("bossTypes", bossTypes);
+	  	
+	  	return "typeForm";
+	}
+
+	
+	
 	// Edit type
 	
 	

@@ -188,7 +188,7 @@ public class TypeAssociationDao {
     	query.setParameter("bossId", 		bossId);
     	query.setParameter("subOrdinateId", subOrdinateId);
     	
-        return query.getSingleResult();		
+        return query.getResultList().get(0);		
 	}
 
 

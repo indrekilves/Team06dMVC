@@ -369,19 +369,19 @@ public class TypeDao {
 		{
 			return false;
 		}
-		
+
 		
         TypedQuery<Type> query = em.createQuery("FROM Type WHERE UPPER(code) = :code", Type.class);
         query.setParameter("code", code.toUpperCase());    
+        List <Type> existingTypes = query.getResultList();
         
-        
-        if (query.getSingleResult() != null)
+        if (existingTypes.isEmpty())
         {
-        	return true;
+        	return false;
         }
         else
         {
-        	return false;
+        	return true;
         }
    	}
 
