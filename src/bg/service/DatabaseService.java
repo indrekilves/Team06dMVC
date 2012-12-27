@@ -7,32 +7,47 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Service;
 import bg.dao.TypeDao;
+import bg.dao.UnitDao;
 import bg.domain.BaseEntity;
 import bg.domain.Type;
+import bg.domain.Unit;
 
 
 @Service
 public class DatabaseService extends GenericService {
 
 	
+	
+	
 	// Properties
 
 	
+	
+    private EntityManager 	em;
+
 	@Resource
 	private TypeDao 		typeDao;
-    private EntityManager 	em;
+
+	@Resource
+	private UnitDao 		unitDao;
+	
+	
 	
 	
     // Insert test data
     
 	
+	
+	
 	public void insertTestData() {
 		deleteExistingData();
 		insertTestTypes();
+		insertTestUnits();
 	}
 
-	
-	
+
+
+
 	public void deleteExistingData() {
 		EntityManagerFactory emf = GenericService.getEntityManagerFactory();
     	em = emf.createEntityManager();
@@ -40,7 +55,10 @@ public class DatabaseService extends GenericService {
 	
 		em.createQuery("DELETE FROM TypeAssociation").executeUpdate(); 
 	    em.createQuery("DELETE FROM Type").executeUpdate();
-	    
+
+	    em.createQuery("DELETE FROM UnitAssociation").executeUpdate();
+	    em.createQuery("DELETE FROM Unit").executeUpdate();
+	   
 	    em.getTransaction().commit();
 		em.close();
 		emf.close();
@@ -87,12 +105,75 @@ public class DatabaseService extends GenericService {
 
 
 	
+	
+	
+	
+	private void insertTestUnits() {
+		EntityManagerFactory emf = GenericService.getEntityManagerFactory();
+    	em = emf.createEntityManager();
+		em.getTransaction().begin();
+
+	    Unit uKU01 = createUnit("KU01", "Kassi kula", "KU");
+	    Unit uKU02 = createUnit("KU02", "Toku kula",  "KU");
+	    Unit uKU03 = createUnit("KU03", "Londi kula", "KU");
+	    Unit uKU04 = createUnit("KU04", "Londi kula", "KU");
+	    
+	    Unit uVA01 = createUnit("VA01", "Urvaste vald", "VA");
+	    Unit uVA02 = createUnit("VA02", "Karula vald",  "VA");
+
+	    Unit uKI01 = createUnit("KI01", "Urvaste kihelkond", "KI");
+	    Unit uKI02 = createUnit("KI02", "Karula kihelkond",  "KI");
+
+	    Unit uMA01 = createUnit("MA01", "Voru maakond", "MA");
+
+	    Unit uRI01 = createUnit("RI01", "Eesti riik", "RI");
+
+	    em.getTransaction().commit();
+		em.close();
+		emf.close();
+
+	    
+	    unitDao.addBossToUnit(uVA01, uKU01);
+	    unitDao.addBossToUnit(uVA01, uKU02);
+	    unitDao.addBossToUnit(uVA02, uKU03);
+	    unitDao.addBossToUnit(uVA02, uKU04);
+
+	    unitDao.addBossToUnit(uKI01, uVA01);
+	    unitDao.addBossToUnit(uKI02, uVA02);
+
+	    unitDao.addBossToUnit(uMA01, uKI01);
+	    unitDao.addBossToUnit(uMA01, uKI02);
+
+	    unitDao.addBossToUnit(uRI01, uMA01);
+	    
+	}
+
+	
+	
 
 	// Delete database / Clear DB lock
 	
 	
 	
 	
+	private Unit createUnit(String code, String name, String typeCode) {
+		Integer typeId = typeDao.getTypeIdByCode(typeCode); 
+		
+		Unit unit = new Unit();
+		
+		unit.setCode(code);
+		unit.setName(name);
+		unit.setFromDate(BaseEntity.getToday());
+		unit.setToDate(BaseEntity.getEndOfTimeDate());
+		unit.setTypeId(typeId);
+		
+		em.persist(unit);
+	    return unit;
+	}
+
+
+
+
 	public String deleteDatabase() {
 		String result = "";
 		

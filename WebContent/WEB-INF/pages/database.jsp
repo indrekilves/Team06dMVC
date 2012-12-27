@@ -38,6 +38,21 @@
 					<c:out value="${ta.subOrdinate.name}"/> > <c:out value="${ta.boss.name}"/>, 
 				</c:forEach>
 			</c:if>
+
+			<c:if test="${not empty units}">
+				<br><br><b>Units:</b><br>
+				<c:forEach var = "unit" items="${units}" >
+					<c:out value="${unit.name}"/>, 
+				</c:forEach>
+			</c:if>
+			
+			<c:if test="${not empty unitAssociations}">
+			    <br><br><b>Unit Associations:</b><br>	
+				<c:forEach var = "ua" items="${unitAssociations}" >
+					<c:out value="${ua.subOrdinate.name}"/> > <c:out value="${ua.boss.name}"/>, 
+				</c:forEach>
+			</c:if>
+
 			
 		</p>
 	</div>

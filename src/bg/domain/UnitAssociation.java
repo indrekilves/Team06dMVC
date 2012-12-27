@@ -8,19 +8,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 
-
 @Entity
-public class TypeAssociation extends BaseEntity {
+public class UnitAssociation extends BaseEntity{
 
 	
-	// Properties
+	// Properties 
 	
-
+	
 	private static final long serialVersionUID = 1L;
+
 	
 	@Id
     @GeneratedValue
-    @Column(name="typeAssociation_id")
+    @Column(name="unitAssociation_id")
 	private Integer id;
 	
 	@Column(name="boss_id")
@@ -31,32 +31,32 @@ public class TypeAssociation extends BaseEntity {
 
 
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name="BOSS_ID", referencedColumnName="TYPE_ID")
-	private Type boss;
+	@PrimaryKeyJoinColumn(name="BOSS_ID", referencedColumnName="UNIT_ID")
+	private Unit boss;
 	
 		
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name="SUBORDINATE_ID", referencedColumnName="TYPE_ID")
-	private Type subOrdinate;
+	@PrimaryKeyJoinColumn(name="SUBORDINATE_ID", referencedColumnName="UNIT_ID")
+	private Unit subOrdinate;
  
 	
 	
-    
-    // Constructors 
-    
-    
+	
+	// Constructors
 	
 	
-    public TypeAssociation(){}
-    
-    
-    
-    
-    // Getters / Setters
-    
-    
-    
+	
+	
+	public UnitAssociation(){}
 
+
+
+	
+	// Getters / Setters
+
+	
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -66,14 +66,11 @@ public class TypeAssociation extends BaseEntity {
 	}
 
 
-	
-	
+
+
 	public Integer getBossId() {
 		return bossId;
 	}
-
-
-
 
 	public void setBossId(Integer bossId) {
 		this.bossId = bossId;
@@ -86,38 +83,29 @@ public class TypeAssociation extends BaseEntity {
 		return subOrdinateId;
 	}
 
-
-
-
 	public void setSubOrdinateId(Integer subOrdinateId) {
 		this.subOrdinateId = subOrdinateId;
 	}
-	
 
-	
-	
-	public Type getBoss() {
+
+
+
+	public Unit getBoss() {
 		return boss;
 	}
 
-
-
-
-	public void setBoss(Type boss) {
+	public void setBoss(Unit boss) {
 		this.boss = boss;
 	}
 
 
 
 
-	public Type getSubOrdinate() {
+	public Unit getSubOrdinate() {
 		return subOrdinate;
 	}
 
-
-
-
-	public void setSubOrdinate(Type subOrdinate) {
+	public void setSubOrdinate(Unit subOrdinate) {
 		this.subOrdinate = subOrdinate;
 	}
 
@@ -125,7 +113,7 @@ public class TypeAssociation extends BaseEntity {
 	
 
 	// Helpers
-
+	
 	
 	
 
@@ -134,9 +122,13 @@ public class TypeAssociation extends BaseEntity {
 		String bossName 		= boss 			!= null ? boss.getName() 		: "NO BOSS";
 		String subOrdinateName 	= subOrdinate 	!= null ? subOrdinate.getName() : "NO SUBORDINATE";
 		
-		return "TypeAssociation [id=" + id + ", boss=" + bossName
+		return "UnitAssociation [id=" + id + ", boss=" + bossName
 				+ ", subOrdinate=" + subOrdinateName + "]";
 	}
+	
+	
+	
+	
 	
 	
 }

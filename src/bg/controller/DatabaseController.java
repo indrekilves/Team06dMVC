@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import bg.dao.TypeAssociationDao;
 import bg.dao.TypeDao;
+import bg.dao.UnitAssociationDao;
+import bg.dao.UnitDao;
 import bg.domain.Type;
 import bg.domain.TypeAssociation;
+import bg.domain.Unit;
+import bg.domain.UnitAssociation;
 import bg.service.DatabaseService;
 
 
@@ -30,6 +34,12 @@ public class DatabaseController extends GenericController {
 	
 	@Resource
 	private TypeAssociationDao typeAssociationDao;
+
+	@Resource
+	private UnitDao unitDao;
+
+	@Resource
+	private UnitAssociationDao unitAssociationDao;
 	
 	
 	// Insert test data
@@ -42,13 +52,21 @@ public class DatabaseController extends GenericController {
 	  	
 	  	List <Type> types = typeDao.getAllTypes();
 	  	List <TypeAssociation> typeAssociations = typeAssociationDao.getAllTypeAccociations();
+
+		List <Unit> units = unitDao.getAllUnits();
+	  	List <UnitAssociation> unitAssociations = unitAssociationDao.getAllUnitAccociations();
+
 	  	
 	  	System.out.println("Inserted types: " + types);
 	  	System.out.println("Inserted type associations: " + typeAssociations);
+	  	System.out.println("Inserted units: " + units);
+	  	System.out.println("Inserted unit associations: " + unitAssociations);
 
 		model.addAttribute("status", "Test data is inserted.");
 	  	model.addAttribute("types", types);
 	  	model.addAttribute("typeAssociations", typeAssociations);
+	  	model.addAttribute("units", units);
+	  	model.addAttribute("unitAssociations", unitAssociations);
 	  	
 	  	return "database";
 	}

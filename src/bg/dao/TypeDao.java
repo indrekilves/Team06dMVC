@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,11 @@ import bg.service.GenericService;
 public class TypeDao {
 	
 	
+	
+	
 	// Properties 
+	
+	
 	
 	
 	@PersistenceContext
@@ -34,6 +39,8 @@ public class TypeDao {
 	private TypeAssociationDao typeAssociationDao;
 	
 
+	
+	
 	// Constructor
 	
 	
@@ -411,6 +418,27 @@ public class TypeDao {
 		em.getTransaction().commit();
 		em.close();
 		emf.close();
+	}
+
+
+
+	// Get typeId
+
+	
+	public Integer getTypeIdByCode(String code) {
+		if (code == null) return null;
+		
+		String sql = 	"SELECT id " +
+						"FROM 	Type " +
+						"WHERE 	UPPER(code)  = :code " +
+						"  AND 	opened 		<= NOW() " +
+						"  AND 	closed		>= NOW() " ;
+		
+        Query query = em.createQuery(sql);
+        query.setParameter("code", code.toUpperCase());
+        Integer typeID = (Integer) query.getResultList().get(0);
+		
+        return typeID;
 	}
 
 
