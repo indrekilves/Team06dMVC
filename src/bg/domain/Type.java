@@ -13,6 +13,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 
+import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
@@ -31,8 +33,12 @@ public class Type extends BaseEntity {
     @Column(name="type_id")
 	private Integer 					id;
 	
+	@NotNull
+	@NotEmpty(message = "Code is a required field")
 	private String 						code;
 	
+	@NotNull
+	@NotEmpty(message = "Name is a required field")
 	private String 						name;	
 
 	@DateTimeFormat(style="M-")

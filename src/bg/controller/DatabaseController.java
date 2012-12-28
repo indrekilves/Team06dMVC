@@ -20,7 +20,7 @@ import bg.service.DatabaseService;
 
 
 @Controller
-public class DatabaseController extends GenericController {
+public class DatabaseController {
 	
 	
 	// Properties 

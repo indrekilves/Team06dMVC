@@ -26,7 +26,7 @@ import bg.service.UnitService;
 import bg.validator.UnitValidator;
 
 @Controller
-public class UnitController extends GenericController {
+public class UnitController {
 
 	
 	

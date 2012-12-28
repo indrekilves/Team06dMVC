@@ -23,7 +23,7 @@ import bg.domain.Unit;
 
 
 @Controller
-public class UnitsReportController extends GenericController{
+public class UnitsReportController {
 
 	
 	

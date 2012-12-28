@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+
+//import org.hibernate.validator.Valid;
+//import javax.validation.Valid; 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,7 +26,7 @@ import bg.service.TypeService;
 import bg.validator.TypeValidator;
 
 @Controller
-public class TypeController extends GenericController{
+public class TypeController {
 
 	
 	// Properties
@@ -138,7 +141,7 @@ public class TypeController extends GenericController{
 	
 	@RequestMapping(value = "/typeFormAction", params = "mode=saveForm", method = RequestMethod.POST)
     public String saveTypeForm(@ModelAttribute("type") Type type, BindingResult bindingResult, @RequestParam("bossId") Integer bossId, ModelMap model) {
-
+ 		
 		typeValidator.validate(type, bindingResult);
 		if (bindingResult.hasErrors()) {
 			return showTypeFormWithErrors(type, bossId, model);
