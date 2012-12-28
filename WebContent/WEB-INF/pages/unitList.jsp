@@ -7,7 +7,7 @@
 	<title>Admin Units</title>
 	<meta 	http-equiv="Content-Type" 	content="text/html; charset=UTF-8">
 	<link  	type="text/css"				rel="stylesheet"	 href="./css/style.css">
- 	<script type="text/javascript" 		src="js/unitsList.js"></script> 
+ 	<script type="text/javascript" 		src="js/unitList.js"></script> 
 </head>
 <body>
 	
@@ -25,7 +25,7 @@
 			<b>State Admin Units</b><br><br>
 
 
-			<form method="POST" id="unitsList" action="unitListAction">
+			<form method="POST" id="unitList" action="unitListAction">
 			
 				<input type="hidden" id="id"	name="id"	value="">					
 				<input type="hidden" id="mode"  name="mode"	value="">

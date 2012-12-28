@@ -21,7 +21,7 @@ function onLoadUnitForm(){
 
 function isComingFromReport(){
 	var origin = document.getElementById('origin').value;
-	return origin == "unitsReport";
+	return origin == "unitReport";
 }
 
 

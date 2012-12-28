@@ -23,7 +23,7 @@ import bg.domain.Unit;
 
 
 @Controller
-public class UnitsReportController {
+public class UnitReportController {
 
 	
 	
@@ -39,13 +39,8 @@ public class UnitsReportController {
 
 	@Resource
 	private TypeDao typeDao;
-
-
 	
-//	@Resource
-//	private UnitService unitService;
 
-	
 	
 	
 	// Init binder
@@ -67,15 +62,15 @@ public class UnitsReportController {
 	
 	
 	
-	@RequestMapping(value = "/showUnitsReport")
-	public String showUnitsReport(ModelMap model){
+	@RequestMapping(value = "/showUnitReport")
+	public String showUnitReport(ModelMap model){
 	  			
 		System.out.println("Show UnitReport");
 	  	
 	  	model.addAttribute("date", new Date());
 	  	model.addAttribute("types", typeDao.getAllTypes());
 	  	
-	  	return "unitsReport";
+	  	return "unitReport";
 	}
 	
 	
@@ -95,7 +90,7 @@ public class UnitsReportController {
 	
 	
 	
-	@RequestMapping(value  = "/unitsReportAction", 
+	@RequestMapping(value  = "/unitReportAction", 
 					params = {"mode=refreshReport", "typeId"},
 					method = RequestMethod.POST)
 	public String refreshReport(@RequestParam("typeId") Integer typeId, 
@@ -116,13 +111,13 @@ public class UnitsReportController {
 	  	session.setAttribute("typeId", typeId);
 	  	session.setAttribute("date", date);
 	  	
-	  	return "unitsReport";
+	  	return "unitReport";
 	}
 
 
 
 	
-	@RequestMapping(value  = "/unitsReportAction", 
+	@RequestMapping(value  = "/unitReportAction", 
 					params = {"mode=showSelectedEntry", "id"},
 					method = RequestMethod.POST)
 	public String showUnitReadOnlyForm(@RequestParam("id") Integer id, ModelMap model){
@@ -134,7 +129,7 @@ public class UnitsReportController {
 
 	  	model.addAttribute("unit", unit);
 	  	model.addAttribute("bossUnits", bossUnits);
-	  	model.addAttribute("origin", "unitsReport");
+	  	model.addAttribute("origin", "unitReport");
 	  	
 	  	return "unitForm";
 	}

@@ -63,8 +63,8 @@ public class TypeController {
 	
 	
 	
-	@RequestMapping(value = "/showTypesList")
-	public String showTypesList(ModelMap model){
+	@RequestMapping(value = "/showTypeList")
+	public String showTypeList(ModelMap model){
 	  	
 	  	List <Type> types = typeDao.getAllTypes();
 	  	
@@ -72,7 +72,7 @@ public class TypeController {
 	  	
 	  	model.addAttribute("types", types);
 	  	
-	  	return "typesList";
+	  	return "typeList";
 	}
 	
 	
@@ -82,7 +82,7 @@ public class TypeController {
 	
 
 	
-	@RequestMapping(value = "/typesListAction", params = {"mode=removeSelectedEntry", "id"})
+	@RequestMapping(value = "/typeListAction", params = {"mode=removeSelectedEntry", "id"})
 	public String removeType(@RequestParam("id") Integer id,  ModelMap model){
 	  	Type type = typeDao.getTypeById(id);
 	  	
@@ -90,7 +90,7 @@ public class TypeController {
 	  	
 		typeDao.closeType(type);
 	  	
-	  	return "redirect:showTypesList";
+	  	return "redirect:showTypeList";
 	}
 	
 	
@@ -101,7 +101,7 @@ public class TypeController {
 	
 	
 	
-	@RequestMapping(value = "/typesListAction", params = "mode=addEntry")
+	@RequestMapping(value = "/typeListAction", params = "mode=addEntry")
 	public String addType(ModelMap model){
 	 	System.out.println("Start adding new type.");
 	 	
@@ -118,7 +118,7 @@ public class TypeController {
 	
 	
 	
-	@RequestMapping(value = "/typesListAction", params = {"mode=showSelectedEntry", "id"})
+	@RequestMapping(value = "/typeListAction", params = {"mode=showSelectedEntry", "id"})
 	public String showTypeForm(@RequestParam("id") Integer id,  ModelMap model){
 		Type type = typeDao.getTypeWithAssociationById(id);
 	  	List <Type> bossTypes = typeDao.getAllPossibleBossTypesByType(type); 
@@ -153,7 +153,7 @@ public class TypeController {
 
         typeService.updateBossByIds(type.getId(), bossId);
 
-        return "redirect:showTypesList";
+        return "redirect:showTypeList";
     }
 
 
@@ -183,7 +183,7 @@ public class TypeController {
 	
 	@RequestMapping(value = "/typeFormAction", params = "mode=cancelForm")
     public String cancelForm() {
-        return "redirect:showTypesList";
+        return "redirect:showTypeList";
     }	
 	
 	

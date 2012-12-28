@@ -49,7 +49,7 @@ public class UnitController {
 	private TypeDao typeDao;
 	
 	@Resource
-	private UnitsReportController unitsReportController;
+	private UnitReportController unitReportController;
 
 	
 	
@@ -71,8 +71,8 @@ public class UnitController {
 	
 	
 	
-	@RequestMapping(value = "/showUnitsList", produces = "text/plain;charset=UTF-8")
-	public String showUnitsList(ModelMap model){
+	@RequestMapping(value = "/showUnitList", produces = "text/plain;charset=UTF-8")
+	public String showUnitList(ModelMap model){
 	  	
 	  	List <Unit> units = unitDao.getAllUnits();
 	  			
@@ -80,7 +80,7 @@ public class UnitController {
 	  	
 	  	model.addAttribute("units", units);
 	  	
-	  	return "unitsList";
+	  	return "unitList";
 	}
 	
 	
@@ -101,7 +101,7 @@ public class UnitController {
 	  	
 		unitDao.closeUnit(unit);
 	  	
-	  	return "redirect:showUnitsList";
+	  	return "redirect:showUnitList";
 	}
 	
 	
@@ -173,7 +173,7 @@ public class UnitController {
 
         unitService.updateBossByIds(unit.getId(), bossId);
 
-        return "redirect:showUnitsList";
+        return "redirect:showUnitList";
     }
 
 
@@ -205,13 +205,13 @@ public class UnitController {
 	
 	@RequestMapping(value = "/unitFormAction", params = "mode=cancelForm", method = RequestMethod.POST)
     public String cancelForm(@RequestParam("origin") String origin, HttpSession session, ModelMap model) {
-		if (origin != null && origin.equals("unitsReport"))
+		if (origin != null && origin.equals("unitReport"))
 		{
-			return unitsReportController.returnToReport(session, model);
+			return unitReportController.returnToReport(session, model);
 		}
 		else
 		{
-			return "redirect:showUnitsList";
+			return "redirect:showUnitList";
 		}
     }	
 

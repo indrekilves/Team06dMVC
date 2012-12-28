@@ -8,7 +8,7 @@
 	<title>Admin Units Type</title>
 	<meta 	http-equiv="Content-Type" 	content="text/html; charset=UTF-8">
 	<link  	type="text/css"				rel="stylesheet"	 href="./css/style.css">
- 	<script type="text/javascript" 		src="js/typesList.js"></script> 
+ 	<script type="text/javascript" 		src="js/typeList.js"></script> 
 </head>
 <body>
 	
@@ -26,7 +26,7 @@
 			<b>State Admin Unit Types</b><br><br>
 
 
-			<form method="POST" id="typesList" action="typesListAction">
+			<form method="POST" id="typeList" action="typeListAction">
 			
 				<input type="hidden" id="id"	name="id"	value="">					
 				<input type="hidden" id="mode"	name="mode"	value="">

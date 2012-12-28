@@ -10,7 +10,7 @@
 	<title>Admin Units Report</title>
 	<meta 	http-equiv="Content-Type" 	content="text/html; charset=UTF-8">
 	<link  	type="text/css"				rel="stylesheet"	 href="./css/style.css">
- 	<script type="text/javascript" 		src="js/unitsReport.js"></script> 
+ 	<script type="text/javascript" 		src="js/unitReport.js"></script> 
 	
 </head>
 
@@ -28,7 +28,7 @@
 	<div id="content">
 	 	<div class="pad10">
 	
-			<form method="POST" id="unitsReport" action="unitsReportAction"> 
+			<form method="POST" id="unitReport" action="unitReportAction"> 
 	
 				<input type="hidden" id="id"	name="id"	value="">					
 				<input type="hidden" id="mode"	name="mode"	value="">
