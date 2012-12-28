@@ -1,16 +1,22 @@
 package bg.service;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Service;
 import bg.dao.TypeDao;
-import bg.dao.UnitDao;
 import bg.domain.BaseEntity;
 import bg.domain.Type;
+import bg.domain.TypeAssociation;
 import bg.domain.Unit;
+import bg.domain.UnitAssociation;
 
 
 @Service
@@ -27,9 +33,6 @@ public class DatabaseService extends GenericService {
 
 	@Resource
 	private TypeDao 		typeDao;
-
-	@Resource
-	private UnitDao 		unitDao;
 	
 	
 	
@@ -41,34 +44,20 @@ public class DatabaseService extends GenericService {
 	
 	public void insertTestData() {
 		deleteExistingData();
-		insertTestTypes();
-		insertTestUnits();
-	}
 
-
-
-
-	public void deleteExistingData() {
 		EntityManagerFactory emf = GenericService.getEntityManagerFactory();
     	em = emf.createEntityManager();
-		em.getTransaction().begin();
-	
-		em.createQuery("DELETE FROM TypeAssociation").executeUpdate(); 
-	    em.createQuery("DELETE FROM Type").executeUpdate();
-
-	    em.createQuery("DELETE FROM UnitAssociation").executeUpdate();
-	    em.createQuery("DELETE FROM Unit").executeUpdate();
-	   
-	    em.getTransaction().commit();
+		
+		insertTestTypes();
+		insertTestUnits();
+		
 		em.close();
 		emf.close();
 	}
 
 
-
+	
 	private void insertTestTypes() {
-		EntityManagerFactory emf = GenericService.getEntityManagerFactory();
-    	em = emf.createEntityManager();
 		em.getTransaction().begin();
 
 	    Type tKU = createType("KÜ", "Küla");
@@ -77,40 +66,52 @@ public class DatabaseService extends GenericService {
 	    Type tMA = createType("MA", "Maakond");
 	    Type tRI = createType("RI", "Riik");
 
+	    addBossToType(tVA, tKU);
+	    addBossToType(tKI, tVA);
+	    addBossToType(tMA, tKI);
+	    addBossToType(tRI, tMA);
+
 	    em.getTransaction().commit();
-		em.close();
-		emf.close();
-
-	    
-	    typeDao.addBossToType(tVA, tKU);
-	    typeDao.addBossToType(tKI, tVA);
-	    typeDao.addBossToType(tMA, tKI);
-	    typeDao.addBossToType(tRI, tMA);
-
 	}
-	
-	
+
 	
 	private Type createType(String code, String name) {
 		Type type = new Type();
 		
 		type.setCode(code);
 		type.setName(name);
-		type.setFromDate(BaseEntity.getToday());
+		type.setOpened(getStartOfTimeDate());
+		type.setFromDate(getStartOfTimeDate());
 		type.setToDate(BaseEntity.getEndOfTimeDate());
 		
 		em.persist(type);
-	    return type;
+		return type;
+	}
+
+
+	private void addBossToType(Type boss, Type type) {
+		if (boss == null || type == null) return; 
+		
+		List<TypeAssociation> typeAssociations = new ArrayList<TypeAssociation>();		
+		TypeAssociation typeAssociation = new TypeAssociation();
+		typeAssociation.setBoss(boss);
+		typeAssociation.setSubOrdinate(type);
+		  
+		typeAssociation.setBossId(boss.getId());
+		typeAssociation.setSubOrdinateId(type.getId());
+		typeAssociation.setOpened(getStartOfTimeDate());
+		
+		em.persist(typeAssociation);
+		
+		typeAssociations.add(typeAssociation);
+		type.setBossAssociations(typeAssociations);
+		boss.setSubOrdinateAssociations(typeAssociations);		
 	}
 
 
 	
 	
-	
-	
 	private void insertTestUnits() {
-		EntityManagerFactory emf = GenericService.getEntityManagerFactory();
-    	em = emf.createEntityManager();
 		em.getTransaction().begin();
 
 	    Unit uKU01 = createUnit("KÜ01", "Kassi küla", "KÜ");
@@ -128,51 +129,99 @@ public class DatabaseService extends GenericService {
 
 	    Unit uRI01 = createUnit("RI01", "Eesti riik", "RI");
 
+	    
+	    addBossToUnit(uVA01, uKU01);
+	    addBossToUnit(uVA01, uKU02);
+	    addBossToUnit(uVA02, uKU03);
+	    addBossToUnit(uVA02, uKU04);
+
+	    addBossToUnit(uKI01, uVA01);
+	    addBossToUnit(uKI02, uVA02);
+
+	    addBossToUnit(uMA01, uKI01);
+	    addBossToUnit(uMA01, uKI02);
+
+	    addBossToUnit(uRI01, uMA01);
+	    
 	    em.getTransaction().commit();
-		em.close();
-		emf.close();
-
-	    
-	    unitDao.addBossToUnit(uVA01, uKU01);
-	    unitDao.addBossToUnit(uVA01, uKU02);
-	    unitDao.addBossToUnit(uVA02, uKU03);
-	    unitDao.addBossToUnit(uVA02, uKU04);
-
-	    unitDao.addBossToUnit(uKI01, uVA01);
-	    unitDao.addBossToUnit(uKI02, uVA02);
-
-	    unitDao.addBossToUnit(uMA01, uKI01);
-	    unitDao.addBossToUnit(uMA01, uKI02);
-
-	    unitDao.addBossToUnit(uRI01, uMA01);
-	    
 	}
 
-	
-	
-
-	// Delete database / Clear DB lock
-	
-	
-	
 	
 	private Unit createUnit(String code, String name, String typeCode) {
 		Integer typeId = typeDao.getTypeIdByCode(typeCode); 
 		
 		Unit unit = new Unit();
-		
+	
 		unit.setCode(code);
 		unit.setName(name);
-		unit.setFromDate(BaseEntity.getToday());
+		unit.setOpened(getStartOfTimeDate());
+		unit.setFromDate(getStartOfTimeDate());
 		unit.setToDate(BaseEntity.getEndOfTimeDate());
 		unit.setTypeId(typeId);
 		
 		em.persist(unit);
-	    return unit;
+		return unit;
+	}
+
+	
+	private void addBossToUnit(Unit boss, Unit unit) {
+		if (boss == null || unit == null) return; 
+		
+		List<UnitAssociation> unitAssociations = new ArrayList<UnitAssociation>();		
+		UnitAssociation unitAssociation = new UnitAssociation();
+		unitAssociation.setBoss(boss);
+		unitAssociation.setSubOrdinate(unit);
+		  
+		unitAssociation.setBossId(boss.getId());
+		unitAssociation.setSubOrdinateId(unit.getId());
+		unitAssociation.setOpened(getStartOfTimeDate());
+		em.persist(unitAssociation);
+		
+		unitAssociations.add(unitAssociation);
+		unit.setBossAssociations(unitAssociations);
+		boss.setSubOrdinateAssociations(unitAssociations);		
+	}
+	
+	
+	private Date getStartOfTimeDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date openDate = null;
+		try {
+			openDate = sdf.parse("2012-01-01");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return openDate;
+	}
+	
+	
+	// Delete existing data 
+	
+
+	
+	public void deleteExistingData() {
+		EntityManagerFactory emf = GenericService.getEntityManagerFactory();
+    	em = emf.createEntityManager();
+		em.getTransaction().begin();
+	
+		em.createQuery("DELETE FROM TypeAssociation").executeUpdate(); 
+	    em.createQuery("DELETE FROM Type").executeUpdate();
+
+	    em.createQuery("DELETE FROM UnitAssociation").executeUpdate();
+	    em.createQuery("DELETE FROM Unit").executeUpdate();		
+	   
+	    em.getTransaction().commit();
+		em.close();
+		emf.close();
 	}
 
 
+	
+	
+	// Delete database / Clear DB lock
 
+	
 
 	public String deleteDatabase() {
 		String result = "";

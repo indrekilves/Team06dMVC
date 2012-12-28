@@ -122,7 +122,7 @@ function storeAndSubmit(id, mode){
 	// FormID comes from calling *.js
 
 	setId(id);
-	setMode(mode);			
+	setMode(mode);	
 	submitForm(formId);		
 }
 
@@ -161,7 +161,6 @@ function setMode(mode){
 	var modeWidget   = document.getElementById("mode");
 	modeWidget.value = mode;
 }
-
 
 
 

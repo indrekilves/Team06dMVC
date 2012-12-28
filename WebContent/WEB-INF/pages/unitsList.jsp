@@ -28,8 +28,8 @@
 			<form method="POST" id="unitsList" action="unitListAction">
 			
 				<input type="hidden" id="id"	name="id"	value="">					
-				<input type="hidden" id="mode"	name="mode"	value="">
-	
+				<input type="hidden" id="mode"  name="mode"	value="">
+					
 				<table>
 					<tr align="left">
 						<th width="40px">ID</th>

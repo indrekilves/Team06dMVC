@@ -30,8 +30,6 @@
 				<input type="hidden" id="id"	name="id"		value="">
 				<input type="hidden" id="subId" name="subId"	value="">		
 				<input type="hidden" id="mode"	name="mode"		value="">
-
-				
 				
 				<table>
 <!-- Select subOrdinate -->						

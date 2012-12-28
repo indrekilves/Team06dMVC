@@ -52,6 +52,8 @@
 				<input type="hidden" id="subId" 	name="subId"	value="">					
 				<input type="hidden" id="typeId"	name="typeId"	value="${unit.type.id}">
 				<input type="hidden" id="mode"		name="mode"		value="">
+				<input type="hidden" id="origin" 	name="origin"	value="${origin}">					
+				
 					
 				<table>
 					<tr>

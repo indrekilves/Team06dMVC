@@ -1,6 +1,7 @@
 package bg.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -87,17 +88,24 @@ public class UnitAssociationDao {
     @Transactional(readOnly=true)
 	public List<UnitAssociation> getSubOrdinateAssociationsById(Integer id) {
     	if (id == null) return null;
-    	
-    	String sql = 	"FROM  UnitAssociation " +
-     					"WHERE boss_id = :id "	 +
-     					"  AND opened <= NOW() " +
-     					"  AND closed >= NOW() " ;
-        
-    	TypedQuery<UnitAssociation> query = em.createQuery(sql, UnitAssociation.class).setParameter("id", id);
-        return query.getResultList();
+    	return getSubOrdinateAssociationsByIdAndDate(id, new Date());
 	}
 
-
+    
+	public List<UnitAssociation> getSubOrdinateAssociationsByIdAndDate(Integer id, Date date) {
+    	if (id == null || date == null) return null;
+    	
+    	String sql = 	"FROM  UnitAssociation " +
+     					"WHERE boss_id = :id   " +
+     					"  AND opened <= :date " +
+     					"  AND closed >= :date " ;
+        
+    	TypedQuery<UnitAssociation> query = em.createQuery(sql, UnitAssociation.class);
+    	query.setParameter("id",   id);
+    	query.setParameter("date", date);
+        return query.getResultList();
+	}
+	
     
     
     // Replace boss
@@ -124,7 +132,7 @@ public class UnitAssociationDao {
 	
 	// Find one
 
-
+	
 	
 	
 	private UnitAssociation getUnitAssociationByIDs(Integer bossId, Integer subOrdinateId) {
@@ -256,6 +264,10 @@ public class UnitAssociationDao {
 			closeUnitAssociation(unitAssociation);
 		}		
 	}
-	
+
+
+
+
+
 
 }

@@ -9,5 +9,6 @@ public interface Creatable {
 	public void setChangedBy(	String 	changedBy);
 	public void setChanged(		Date 	changed);
 	public void setClosed(		Date	closed);
+	public Date getOpened();
 	
 }

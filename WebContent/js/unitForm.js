@@ -9,7 +9,10 @@ var formId = "unitForm";
 function onLoadUnitForm(){
 	if (isComingFromReport()){
 		disableForm();
+		$(".datePicker").datepicker('disable');
 	    document.getElementById('cancelUnit').disabled=false;
+	    document.getElementById('mode').disabled=false;
+	    document.getElementById('origin').disabled=false;
 	} else {
 		toggleTypeRelatedWidgets();
 	}
@@ -17,8 +20,8 @@ function onLoadUnitForm(){
 
 
 function isComingFromReport(){
-	var pathName = window.location.pathname; 
-	return pathName.indexOf("UnitsReportController") !== -1;
+	var origin = document.getElementById('origin').value;
+	return origin == "unitsReport";
 }
 
 

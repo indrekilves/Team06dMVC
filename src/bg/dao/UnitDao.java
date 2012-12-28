@@ -1,6 +1,7 @@
 package bg.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -214,39 +215,6 @@ public class UnitDao {
 
 
 
-	// Add boss
-	
-	
-
-
-	public void addBossToUnit(Unit boss, Unit unit) {
-		if (boss == null || unit == null) return; 
-		
-		EntityManagerFactory 	emf = GenericService.getEntityManagerFactory();
-		EntityManager 			em 	= emf.createEntityManager();
-		em.getTransaction().begin();
-		
-		List<UnitAssociation> unitAssociations = new ArrayList<UnitAssociation>();		
-		UnitAssociation unitAssociation = new UnitAssociation();
-		unitAssociation.setBoss(boss);
-		unitAssociation.setSubOrdinate(unit);
-		  
-		unitAssociation.setBossId(boss.getId());
-		unitAssociation.setSubOrdinateId(unit.getId());
-		em.persist(unitAssociation);
-		
-		unitAssociations.add(unitAssociation);
-		unit.setBossAssociations(unitAssociations);
-		boss.setSubOrdinateAssociations(unitAssociations);		
-		
-		em.getTransaction().commit();		
-		em.close();
-		emf.close();		
-	}
-
-
-
-
 	// Find all possible bosses
 
 	
@@ -451,13 +419,143 @@ public class UnitDao {
 	}
 
 
+	
+	
+	// Find all with all nested subOrdinates
+
+	
+	
+
+	public List<Unit> getAllUnitsWithSuboridinatesByTypeIdAndDate(Integer typeId, Date date) {
+		List<Unit> unitsWithDirectSubOrdinates 	= getAllUnitsWithDirectRelationsByTypeIdAndDate(typeId, date);
+		List<Unit> unitsWithAllSubOrdinates 	= new ArrayList<Unit>();
+		
+		if (unitsWithDirectSubOrdinates == null) return null;
+		
+		for (Unit unit : unitsWithDirectSubOrdinates) {
+			
+			if (unit != null){
+			
+				List<Unit> subOrdinates = getAllSubordinatesByUnitAndDate(unit, date);
+				if (subOrdinates != null && !subOrdinates.isEmpty()){
+					unit.setSubOrdinates(subOrdinates);
+				}
+				
+				unitsWithAllSubOrdinates.add(unit);
+			}
+		}		
+		
+		return unitsWithAllSubOrdinates;
+	}
 
 
+	private List<Unit> getAllUnitsWithDirectRelationsByTypeIdAndDate(Integer typeId, Date date) {
+		String sql = 	"FROM 	Unit                " +
+						"WHERE 	typeId    = :typeId " +
+						"  AND  opened   <= :date   " +
+						"  AND 	closed   >= :date   " +
+						"  AND  fromDate <= :date   " +
+						"  AND  toDate   >= :date   " ;
+		
+		
+		TypedQuery<Unit> query = em.createQuery(sql, Unit.class);
+		query.setParameter("typeId", typeId);
+		query.setParameter("date", date);
+		 
+	    List <Unit> units = query.getResultList();
+	     
+	    if (!units.isEmpty()){
+	    	for (Unit unit : units) {
+	    		unit = setSubordinatesByDate(unit, date); 
+				unit = setType(unit);
+	    	}
+	    }
+	    
+		return units;
+	}
+	
+
+	private Unit setSubordinatesByDate(Unit unit, Date date) {
+		if (unit == null || date == null) return unit;
+		
+    	List<Unit> subOrdinates = getSubOrdinatesByDate(unit, date);
+		unit.setSubOrdinates(subOrdinates);
+		
+    	return unit;
+	}
 
 
+	private List<Unit> getSubOrdinatesByDate(Unit unit, Date date) {
+    	if (unit == null || date == null) return null;
+    	
+    	List <UnitAssociation> subOrdinateAssociations = unitAssociationDao.getSubOrdinateAssociationsByIdAndDate(unit.getId(), date);
+    	if (subOrdinateAssociations == null || subOrdinateAssociations.isEmpty()) return null;
 
+    	List<Unit> subOrdinates = new ArrayList<Unit>();    	
+    	for (UnitAssociation subOrdinateAssociation : subOrdinateAssociations) {
+    		Unit subOrdinate = subOrdinateAssociation.getSubOrdinate();
+    		if (subOrdinate != null){
+    			
+    			if (isUnitValidByDate(subOrdinate, date)){
+    				subOrdinates.add(subOrdinate);
+    			}
+    		
+    		}
+		}    	
+    	
+		return subOrdinates;
+	}
 
+	
+	private boolean isUnitValidByDate(Unit unit, Date date) {
+		if (unit == null || date == null) return false;
+		
+		Date opened   = unit.getOpened();
+		Date closed   = unit.getClosed();
+		Date fromDate = unit.getFromDate();
+		Date toDate   = unit.getToDate();
 
+		
+		if (opened == null || closed == null || fromDate == null || toDate == null) return false;
+		
+		
+		if (opened.compareTo(date) <= 0 && closed.compareTo(date) >= 0 && 
+				fromDate.compareTo(date) <= 0 && toDate.compareTo(date) >= 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}	
+	}
+	
+	
+	
+	private List<Unit> getAllSubordinatesByUnitAndDate(Unit unit, Date date) {
+		if (unit == null) return null;
+		
+	    List<Unit> allSubOrdinates	  = new ArrayList<Unit>();
+	    List<Unit> directSubOrdinates = unit.getSubOrdinates();
+	    
+	    if (directSubOrdinates == null || directSubOrdinates.isEmpty()) return null;
+	    
+	    for (Unit subOrdinate : directSubOrdinates) {
+	    	if (subOrdinate != null){
+	        	allSubOrdinates.add(subOrdinate);
+		    	
+		    	subOrdinate = setSubordinatesByDate(subOrdinate, date);
+		    	List<Unit> subUnitSubOrdinates = getAllSubordinatesByUnitAndDate(subOrdinate, date);
+		    	
+		    	if (subUnitSubOrdinates != null && !subUnitSubOrdinates.isEmpty()){
+		    		allSubOrdinates.addAll(subUnitSubOrdinates);
+		    	}
+	    	}
+	    	
+		}
+	    
+		return allSubOrdinates;
+	}
 
 
 }

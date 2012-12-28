@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -45,6 +47,9 @@ public class UnitController extends GenericController {
 
 	@Resource
 	private TypeDao typeDao;
+	
+	@Resource
+	private UnitsReportController unitsReportController;
 
 	
 	
@@ -197,13 +202,21 @@ public class UnitController extends GenericController {
 	
 	
 	
-	@RequestMapping(value = "/unitFormAction", params = "mode=cancelForm", produces = "text/plain;charset=UTF-8")
-    public String cancelForm() {
-        return "redirect:showUnitsList";
+	
+	@RequestMapping(value = "/unitFormAction", params = "mode=cancelForm", method = RequestMethod.POST)
+    public String cancelForm(@RequestParam("origin") String origin, HttpSession session, ModelMap model) {
+		if (origin != null && origin.equals("unitsReport"))
+		{
+			return unitsReportController.returnToReport(session, model);
+		}
+		else
+		{
+			return "redirect:showUnitsList";
+		}
     }	
-	
-	
 
+		
+	
 	
 	// Remove subOrdinate
 	

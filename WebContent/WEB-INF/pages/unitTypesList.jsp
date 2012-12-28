@@ -32,7 +32,6 @@
 				<input type="hidden" id="mode"		name="mode"		value="">
 
 				
-				
 				<table>
 <!-- Select subOrdinate -->						
 				

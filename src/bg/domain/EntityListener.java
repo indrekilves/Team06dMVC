@@ -14,7 +14,10 @@ public class EntityListener {
 		Date today 		= BaseEntity.getToday();
 		
 		entity.setOpenedBy(userName);
-		entity.setOpened(today);
+		if (entity.getOpened() == null)
+		{
+			entity.setOpened(today);
+		}
 		
 		entity.setChangedBy(userName);
 		entity.setChanged(today);

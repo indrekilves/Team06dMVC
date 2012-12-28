@@ -185,38 +185,6 @@ public class TypeDao {
 		return subOrdinates;
 	}
 
-    
-    
-    
-    // Add boss
-
-
-	public void addBossToType(Type boss, Type type) {
-		if (boss == null || type == null) return; 
-		
-		EntityManagerFactory 	emf = GenericService.getEntityManagerFactory();
-		EntityManager 			em 	= emf.createEntityManager();
-		em.getTransaction().begin();
-		
-		List<TypeAssociation> associations = new ArrayList<TypeAssociation>();		
-		TypeAssociation association = new TypeAssociation();
-		association.setBoss(boss);
-		association.setSubOrdinate(type);
-		  
-		association.setBossId(boss.getId());
-		association.setSubOrdinateId(type.getId());
-		em.persist(association);
-		
-		associations.add(association);
-		type.setBossAssociations(associations);
-		boss.setSubOrdinateAssociations(associations);		
-		
-		em.getTransaction().commit();		
-		em.close();
-		emf.close();
-	}
-
-
 	
 
 	// Find all possible bosses
