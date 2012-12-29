@@ -18,7 +18,7 @@
 			</td>
 			
 			<td style="width: 20%;text-align: right;padding-right: 10px">
-				<a href="?lang=en">en</a> | <a href="?lang=et">et</a>
+<!-- 				<a href="?lang=en">en</a> | <a href="?lang=et">et</a> -->
 			</td>
 			
 		</tr>

@@ -21,22 +21,31 @@
 	
 	<div id="content">
 		<p class="lPad100">		
-			<br><br><br><br><br>
-			<spring:message code="label.indexPage_line1"/><br><br>
-			<spring:message code="label.indexPage_line2"/>
-			<a href="insertTestData">
-				<spring:message code="label.indexPage_line2_link"/>
-			</a><br><br><br><br><br><br><br> 
-			<spring:message code="label.indexPage_line3"/><br>
-			<a href="clearDbLock">
-				<spring:message code="label.indexPage_line3_link1"/>
-			</a> |  
-			<a href="deleteDatabase">
-				<spring:message code="label.indexPage_line3_link2"/>
-			</a>
+		
+					<br><br><br><br><br>
+
+			Welcome to BoarderGuard webApplication.<br><br>
+ 			First please <a href="insertTestData">insert test data</a>.<br><br><br><br><br><br><br>
+ 			Note: If something fails use <a href="clearDbLock">clear db.lck</a> option. 
+ 			
+ 			
+ 			
+<!-- 			<br><br><br><br><br> -->
+<%-- 			<spring:message code="label.indexPage_line1"/><br><br> --%>
+<%-- 			<spring:message code="label.indexPage_line2"/> --%>
+<!-- 			<a href="insertTestData"> -->
+<%-- 				<spring:message code="label.indexPage_line2_link"/> --%>
+<!-- 			</a><br><br><br><br><br><br><br>  -->
+<%-- 			<spring:message code="label.indexPage_line3"/><br> --%>
+<!-- 			<a href="clearDbLock"> -->
+<%-- 				<spring:message code="label.indexPage_line3_link1"/> --%>
+<!-- 			</a> |   -->
+<!-- 			<a href="deleteDatabase"> -->
+<%-- 				<spring:message code="label.indexPage_line3_link2"/> --%>
+<!-- 			</a> -->
 			
-			<br><br>
- 			Current Locale : ${pageContext.response.locale}
+<!-- 			<br><br> -->
+<%--  			Current Locale : ${pageContext.response.locale} --%>
  			
 		</p>
 	</div>
