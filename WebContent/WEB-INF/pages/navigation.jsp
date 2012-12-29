@@ -17,7 +17,6 @@
 		<br><br><br> 			
 		<a href="insertTestData"	class="navigation">Insert test data</a><br>
 		<a href="deleteAllData"		class="navigation">Delete all data</a><br>
-		<br><br><br>
  		<a href="clearDbLock"		class="navigation">Clear DB lock</a><br>
  		<a href="deleteDatabase"	class="navigation">Delete database</a><br>
 

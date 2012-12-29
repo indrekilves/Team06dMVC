@@ -14,7 +14,6 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import bg.domain.BaseEntity;
 import bg.domain.Type;
 import bg.domain.TypeAssociation;
@@ -407,6 +406,70 @@ public class TypeDao {
         Integer typeID = (Integer) query.getResultList().get(0);
 		
         return typeID;
+	}
+
+
+	
+	
+	// Get top level types
+
+	
+	
+
+	public List<Type> getTopLevelTypes() {
+		List <Type> allTypes = getAllTypes();
+		List <Type> topLevelTypes = new ArrayList<Type>();
+
+		for (Type type : allTypes) {
+			if (type != null){
+				if (hasBossById(type.getId()) == false){
+					topLevelTypes.add(type);
+				}
+			}
+		}
+		
+		
+		return topLevelTypes;
+	}
+
+
+	private boolean hasBossById(Integer id) {
+		Type boss = getBossById(id); 
+    	return boss != null;
+	}
+
+
+	
+
+	// Get all nested subOrdinates
+	
+	
+	
+
+	public List<Type> getAllNestedSubOrdinatesById(Integer id) {
+		if (id == null) return null;
+		Type type = getTypeWithAssociationById(id);
+		if (type == null) return null;
+		
+	    List<Type> allSubOrdinates	= new ArrayList<Type>();
+	    List<Type> directSubOrdinates = type.getSubOrdinates();
+	    
+	    if (directSubOrdinates == null || directSubOrdinates.isEmpty()) return null;
+	    
+	    for (Type subType : directSubOrdinates) {
+	    	if (subType != null){
+
+	    		List<Type> subTypeSubOrdinates = getAllNestedSubOrdinatesById(subType.getId());
+		    	if (subTypeSubOrdinates != null && !subTypeSubOrdinates.isEmpty()){
+		    		subType.setSubOrdinates(subTypeSubOrdinates);
+		    	}
+	    		
+	    		allSubOrdinates.add(subType);
+	    	}
+	    	
+		}
+	    
+		return allSubOrdinates;
 	}
 
 
