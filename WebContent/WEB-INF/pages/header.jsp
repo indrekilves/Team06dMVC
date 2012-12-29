@@ -7,8 +7,22 @@
 	<link  	type="text/css"				rel="stylesheet"	 href="./css/style.css">
 </head>
 <body>
-<br>
-	BoarderGuard - Team06d - MVC
-<br><br>
+	<br>
+	<table style="width: 100%">
+		<tr>
+			<td width="20%">
+			</td>
+			
+			<td>
+			BoarderGuard - Team06d - MVC
+			</td>
+			
+			<td style="width: 20%;text-align: right;padding-right: 10px">
+				<a href="?lang=en">en</a> | <a href="?lang=et">et</a>
+			</td>
+			
+		</tr>
+	</table>
+	<br>
 </body>
 </html>
