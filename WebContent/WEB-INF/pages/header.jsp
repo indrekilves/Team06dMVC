@@ -14,7 +14,7 @@
 			</td>
 			
 			<td>
-			BoarderGuard - Team06d - MVC
+			BoarderGuard - Team06d - MVC | <a href="j_spring_security_logout"> Logout</a>
 			</td>
 			
 			<td style="width: 20%;text-align: right;padding-right: 10px">
