@@ -26,7 +26,8 @@
 
 			Welcome to BoarderGuard webApplication.<br><br>
  			First please <a href="insertTestData">insert test data</a>.<br><br><br><br><br><br><br>
- 			Note: If something fails use <a href="clearDbLock">clear db.lck</a> option. 
+ 			Note: If something fails use <a href="clearDbLock">clear db.lck</a> option. <br>
+ 			Delete database requires admin role, superuser / kti.
  			
  			
  			
