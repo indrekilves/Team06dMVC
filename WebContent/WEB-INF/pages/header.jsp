@@ -12,11 +12,11 @@
 	<br>
 	<table style="width: 100%">
 		<tr>
-			<td width="20%">
+			<td style="width: 20%;text-align: left;padding-left: 10px">
 			  <a href="?lang=en">en</a> | <a href="?lang=et">et</a>
 			</td>
 			
-			<td>
+			<td align="center">
 				<spring:message code="header.label.name"/>
 			</td>
 			
