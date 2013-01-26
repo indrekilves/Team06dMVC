@@ -21,7 +21,7 @@
 			</td>
 			
 			<td style="width: 20%;text-align: right;padding-right: 10px">
-				<a href="j_spring_security_logout"><spring:message code="header.link.logout"/></a>
+				<a href="logout"><spring:message code="header.link.logout"/></a>				
 			</td>
 			
 		</tr>

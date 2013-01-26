@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec"    uri="http://www.springframework.org/security/tags" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -25,17 +26,22 @@
  			
 			<br><br><br><br><br>
 			<spring:message code="index.label.welcome"/><br><br>
-			<spring:message code="index.label.insertTestData"/>
-			<a href="insertTestData">
-				<spring:message code="index.link.insertTestData"/>
-			</a><br><br><br><br><br><br><br> 
-			<spring:message code="index.label.ifFails"/><br>
-			<a href="clearDbLock">
-				<spring:message code="index.link.clearDbLock"/>
-			</a> |  
-			<a href="deleteDatabase">
-				<spring:message code="index.link.deleteDb"/>
-			</a>
+			<sec:authorize ifAnyGranted="ROLE_ADMIN">
+				<spring:message code="index.label.insertTestData"/>
+				<a href="insertTestData">
+					<spring:message code="index.link.insertTestData"/>
+				</a><br><br><br><br><br><br><br> 
+				<spring:message code="index.label.ifFails"/><br>
+				<a href="clearDbLock">
+					<spring:message code="index.link.clearDbLock"/>
+				</a> |  
+				<a href="deleteDatabase">
+					<spring:message code="index.link.deleteDb"/>
+				</a>
+			</sec:authorize>
+			<sec:authorize ifAnyGranted="ROLE_USER">
+				<spring:message code="index.label.userProblems"/>
+			</sec:authorize>
 			
 <!-- 			<br><br> -->
 <%--  			Current Locale : ${pageContext.response.locale} --%>
