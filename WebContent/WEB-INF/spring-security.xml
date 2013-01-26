@@ -20,9 +20,17 @@
 
 	<authentication-manager>
 		<authentication-provider>
+<!-- 			<user-service> -->
+<!-- 				<user name="admin" password="itk" authorities="ROLE_USER" /> -->
+<!-- 				<user name="superuser" password="kti" authorities="ROLE_ADMIN" /> -->
+<!-- 			</user-service> -->
+
+			<password-encoder hash="sha" />
 			<user-service>
-				<user name="admin" password="itk" authorities="ROLE_USER" />
-				<user name="superuser" password="kti" authorities="ROLE_ADMIN" />
+				<user name="user" password="12dea96fec20593566ab75692c9949596833adc9"
+					authorities="ROLE_USER" />
+				<user name="admin" password="d033e22ae348aeb5660fc2140aec35850c4da997"
+					authorities="ROLE_ADMIN" />
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>
