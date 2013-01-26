@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" 	uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" 	uri="http://www.springframework.org/tags" %>
+
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -15,19 +17,19 @@
 	<table>
 <!-- Code -->
 	   	<tr>
-	    	<td width="100px">Code</td> 		
+	    	<td width="100px"><spring:message code="unitForm.label.code"/></td> 		
 		   	<td><input name="code" 	value="${unit.code}"></td>	
 	    </tr>
 	
 <!-- Name -->
 	    <tr class="tall">
-		    <td>Name</td>		
+		    <td><spring:message code="unitForm.label.name"/></td>		
 		    <td><input name="name" 	value="${unit.name}"></td>	
 	    </tr>
 	    
 <!-- Comment -->
 		<tr class="tall">
-			<td valign="top">Comment</td>
+			<td valign="top"><spring:message code="unitForm.label.comment"/></td>
 			<td>
 				<textarea name="comment">${unit.comment}</textarea>
 			</td>
@@ -35,16 +37,16 @@
 
 <!-- Type -->
 	    <tr class="tall">
-		    <td>Type</td>		
+		    <td><spring:message code="unitForm.label.type"/></td>		
 		    <td>
 		    	<table  width="205px">
 		    		<tr> 
 		    			<td >
 			    			<c:out value="${unit.type.name}"/>
 			    		</td>
-<!-- Type button -->	<td align="right">
+<!-- Type button -->	<td align="right"> 
 						 	<input 	type	= "button" 
-						 			value	= "Change" 
+						 			value	= "<spring:message code="unitForm.button.change"/>" 
 						 			class 	= "largeButton"  
 						 			onclick	= "changeType('${unit.id}')">
 						</td>
@@ -56,7 +58,7 @@
  <!-- Subordinate -->
 	    
 	   	<tr class="tall">
-			<td>Subordinate of</td>
+			<td><spring:message code="unitForm.label.subordinateOf"/></td>
 			<td>
 	
 				 
@@ -80,7 +82,7 @@
 		
 		<!-- From date  -->
 		<tr class="tall">
-			<td>From</td>
+			<td><spring:message code="unitForm.label.from"/></td>
 			<td>
 				<input 	name  = "fromDate" 
 						class = "datePicker"
@@ -99,7 +101,7 @@
 		
 		<!-- To date  -->
 		<tr class="tall">
-			<td>To</td>
+			<td><spring:message code="unitForm.label.to"/></td>
 			<td>
 			
  				<input 	name  = "toDate"  

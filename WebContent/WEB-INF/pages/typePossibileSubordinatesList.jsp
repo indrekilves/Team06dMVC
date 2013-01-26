@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" 	uri="http://www.springframework.org/tags" %>
+
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<title>Possible Subordinates for Admin Unit Type</title>
+	<title><spring:message code="typeSubOrdList.title"/></title>
 	<meta 	http-equiv="Content-Type" 	content="text/html; charset=UTF-8">
 	<link  	type="text/css"				rel="stylesheet"	 href="./css/style.css">
  	<script type="text/javascript" 		src="js/typePossibileSubordinatesList.js"></script> 
@@ -23,7 +23,7 @@
 	
 	<div id="content">
 		<div class="pad10">
-			<b>Select subordinate for <c:out value="${type.name}"/></b><br><br>
+			<b><spring:message code="typeSubOrdList.label.selectSubOrd"/> <c:out value="${type.name}"/></b><br><br>
 			
 			<form method="POST"	id="typePossibileSubordinatesList" action="addTypeSubordinateAction">
 
@@ -35,8 +35,8 @@
 <!-- Select subOrdinate -->						
 				
 					<tr align="left">
-						<th width="100px">Code</th>
-						<th width="150px">Name</th>
+						<th width="100px"><spring:message code="typeSubOrdList.label.code"/></th>
+						<th width="150px"><spring:message code="typeSubOrdList.label.name"/></th>
 						<th width="50px"></th>
 					</tr>
 					
@@ -50,7 +50,7 @@
 								</td>
 								<td>
 									<input 	type    = "button" 
-								  			value   = "Select" 
+								  			value   = "<spring:message code="typeSubOrdList.button.select"/>" 
 								  			name    = "btnSelectSubOrdinate" 
 								  			class   = "largeButton" 
 								  			onclick = "selectSubOrdinate('${type.id}', '${possibleSubordinate.id}')">	
@@ -65,7 +65,7 @@
 							<td></td>
 							<td align="right">
 								  	<input 	type    = "button"
-								  			value   = "Cancel" 
+								  			value   = "<spring:message code="typeSubOrdList.button.cancel"/>" 
 								  			name    = "btnCancelSelect" 
 								  			class   = "largeButton"
 								  			onclick = "cancelSubordinateSelect('${type.id}')">
@@ -73,8 +73,8 @@
 						</tr>
 				</table>
 				<br><br><br>
-				Note:<br>
-				Shown are only these Types that can be subordinates of <c:out value="${type.name}"/>.
+				NB:<br>
+				<spring:message code="typeSubOrdList.label.disclaimer"/> <c:out value="${type.name}"/>.
 				
 			</form>
 		    

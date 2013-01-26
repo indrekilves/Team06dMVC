@@ -9,7 +9,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<title>Edit Admin Unit</title>
+	<title><spring:message code="unitForm.title"/></title>
 	<meta 	http-equiv="Content-Type" 	content="text/html; charset=UTF-8">
 	<link  	type="text/css"				rel="stylesheet"	 href="./css/style.css">
  	<script type="text/javascript" 		src="js/unitForm.js"></script> 
@@ -78,14 +78,14 @@
 <!-- Save button -->				<td>			
 									 	<input 	type	= "button" 
 									 			id		= "saveUnit"
-									 			value	= "Save" 
+									 			value	= "<spring:message code="unitForm.button.save"/>" 
 									 			class 	= "largeButton"  
 									 			onclick	= "saveForm('${unit.id}')">
 									</td>
 <!-- Cancel button -->				<td>
 									 	<input 	type	= "button" 
 									 			id 		= "cancelUnit"
-									 			value	= "Cancel" 
+									 			value	= "<spring:message code="unitForm.button.cancel"/>" 
 									 			class 	= "largeButton"  
 									 			onclick	= "cancelForm('${unit.id}')">
 									</td>

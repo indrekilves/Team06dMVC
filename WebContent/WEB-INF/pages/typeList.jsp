@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" 	uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<title>Admin Units Type</title>
+	<title><spring:message code="typeList.title"/></title>
 	<meta 	http-equiv="Content-Type" 	content="text/html; charset=UTF-8">
 	<link  	type="text/css"				rel="stylesheet"	 href="./css/style.css">
  	<script type="text/javascript" 		src="js/typeList.js"></script> 
@@ -23,7 +24,7 @@
 	
 	<div id="content">
 	 	<div class="pad10">
-			<b>State Admin Unit Types</b><br><br>
+			<b><spring:message code="typeList.label.listTitle"/></b><br><br>
 
 
 			<form method="POST" id="typeList" action="typeListAction">
@@ -33,9 +34,9 @@
 	
 				<table>
 					<tr align="left">
-						<th width="40px">ID</th>
-						<th width="100px">Code</th>
-						<th width="150px">Name</th>
+						<th width="40px"><spring:message code="typeList.label.id"/></th>
+						<th width="100px"><spring:message code="typeList.label.code"/></th>
+						<th width="150px"><spring:message code="typeList.label.name"/></th>
 						<th></th>
 						<th width="20px"></th>
 						<th></th>
@@ -55,7 +56,7 @@
 <!-- Edit button -->			<td>
 									<input 	type    = "button" 
 											id		= "editType_${type.id}"
-								  			value   = "Edit" 
+								  			value   = "<spring:message code="typeList.button.edit"/>" 
 								  			name    = "btnEdit" 
 								  			class   = "largeButton" 
 								  			onclick = "showSelectedEntry('${type.id}')">	
@@ -64,7 +65,7 @@
 <!-- Remove button -->			<td>
 									<input 	type    = "button" 
 											id		= "removeType_${type.id}"
-								  			value   = "Remove" 
+								  			value   = "<spring:message code="typeList.button.remove"/>" 
 								  			name    = "btnRemove" 
 								  			class   = "largeButton" 
 								  			onclick = "removeSelectedEntry('${type.id}')">	
@@ -80,7 +81,7 @@
 <!-- Add button -->		<td>
 						 	<input 	type	= "button" 
 						 			id		= "addType"
-						 			value   = "Add" 
+						 			value   = "<spring:message code="typeList.button.add"/>" 
 						 			name    = "btnAdd" 
 						 			class   = "largeButton"  
 						 			onclick = "addEntry()">

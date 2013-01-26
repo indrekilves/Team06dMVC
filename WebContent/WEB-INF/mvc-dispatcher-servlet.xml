@@ -75,29 +75,25 @@
 <!-- 	      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/> -->
   
     	<!-- Localization -->
-<!--   	<bean 	id="localeResolver" -->
-<!-- 			class="org.springframework.web.servlet.i18n.SessionLocaleResolver"> -->
-<!-- 		<property name="defaultLocale" value="en" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean 	id="localeChangeInterceptor" -->
-<!-- 			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"> -->
-<!-- 		<property name="paramName" value="lang" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean 	id="handlerMapping" -->
-<!-- 			class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" > -->
-<!-- 		<property name="interceptors"> -->
-<!-- 			<list> -->
-<!-- 				<ref bean="localeChangeInterceptor" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean 	id="messageSource" -->
-<!-- 			class="org.springframework.context.support.ResourceBundleMessageSource"> -->
-<!-- 		<property name="basename" value="messages" /> -->
-<!-- 	</bean> -->
+
+  <bean id="messageSource"
+    class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basename" value="classpath:messages" />
+    <property name="defaultEncoding" value="UTF-8" />
+  </bean>
+
+  <mvc:interceptors>
+    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+      <property name="paramName" value="lang"></property>
+    </bean>
+  </mvc:interceptors>
+
+  <bean id="localeResolver"
+    class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+    <property name="defaultLocale" value="et" />
+  </bean>
+
+
   
 
 </beans>

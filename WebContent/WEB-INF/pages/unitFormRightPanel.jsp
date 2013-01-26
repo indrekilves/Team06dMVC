@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" 	uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" 	uri="http://www.springframework.org/tags" %>
+
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -13,7 +15,7 @@
 <body>
 	<table width="300px">
     	<tr class = "tableWithBorder">
-    		<th align="left">Subordinates</th>
+    		<th align="left"><spring:message code="unitForm.label.subordinates"/></th>
     		<th></th>				    						    		
     	</tr>
     	
@@ -25,7 +27,7 @@
 				</td>
 				<td align="right">
 				  	<input 	type    = "button" 
-				  			value   = "Remove" 
+				  			value   = "<spring:message code="unitForm.button.remove"/>" 
 				  			id		= "removeSubOrdinateUnit_${subOrdinate.id}"
 				  			name    = "btnRemoveSubType" 
 				  			class   = "largeButton" 
@@ -42,7 +44,7 @@
 					
 				  	<input 	type    = "button"
 				  			id		= "addSubOridinateUnit" 
-				  			value   = "Add" 
+				  			value   = "<spring:message code="unitForm.button.add"/>" 
 				  			name    = "btnAddSubType" 
 				  			class   = "largeButton"
 				  			onclick = "addSubOrdinate('${unit.id}')">
