@@ -134,7 +134,7 @@ public class UnitController {
 	@RequestMapping(value = "/unitListAction", 
 					params = {"mode=showSelectedEntry", "id"},
 					produces = "text/plain;charset=UTF-8")
-	public String showUnitForm(@RequestParam("id") Integer id,  ModelMap model){
+	public String showUnitForm(@RequestParam("id") Integer id,  ModelMap model, HttpSession session){
 		Unit unit = unitDao.getUnitWithAssociationById(id);
 	  	List <Unit> bossUnits = unitDao.getAllPossibleBossUnitsByUnit(unit); 
 
@@ -143,6 +143,8 @@ public class UnitController {
 	  	model.addAttribute("unit", unit);
 	  	model.addAttribute("bossUnits", bossUnits);
 	  	
+	  	session.setAttribute("unitId", id);
+
 	  	return "unitForm";
 	}
 	
@@ -231,7 +233,8 @@ public class UnitController {
     								BindingResult bindingResult, 
     								@RequestParam("bossId") Integer bossId,
     								@RequestParam("subId") Integer subId, 
-    								ModelMap model) {
+    								ModelMap model,
+    								HttpSession session) {
 		// first save the type
 		String nextPage = saveUnitForm(unit, bindingResult, bossId, model);
 		if (bindingResult.hasErrors()){
@@ -242,7 +245,7 @@ public class UnitController {
 
 		// then remove the subOrdinate
 		unitService.removeSubOrdinateByIds(unit.getId(), subId);
-        return showUnitForm(unit.getId(), model);
+        return showUnitForm(unit.getId(), model, session);
     }
 	
 	
@@ -285,10 +288,13 @@ public class UnitController {
 					params = {"mode=selectSubOrdinate", "id", "subId"}, 
 					method = RequestMethod.POST,
 					produces = "text/plain;charset=UTF-8")
-	private String saveSubOrdinate(@RequestParam("id") Integer id, @RequestParam("subId") Integer subId, ModelMap model) {
+	private String saveSubOrdinate(	@RequestParam("id") Integer id, 
+									@RequestParam("subId") Integer subId, 
+									ModelMap model,
+									HttpSession session) {
 		unitService.addSubOrdinateByIds(id, subId);
 	  	System.out.println("Add subOrdinate (ID): " + subId + " to Unit (ID): " + id);
-		return showUnitForm(id, model);
+		return showUnitForm(id, model, session);
 	}
 
 
@@ -296,8 +302,8 @@ public class UnitController {
 					params = {"mode=cancelSubordinateSelect", "id"}, 
 					method = RequestMethod.POST,
 					produces = "text/plain;charset=UTF-8")
-	private String cancelSubordinateSelect(@RequestParam("id") Integer id, ModelMap model) {
-		return showUnitForm(id, model);
+	private String cancelSubordinateSelect(@RequestParam("id") Integer id, ModelMap model, HttpSession session) {
+		return showUnitForm(id, model, session);
 	}
 	
 	
@@ -343,13 +349,14 @@ public class UnitController {
 					produces = "text/plain;charset=UTF-8")
 	public String selectType(	@RequestParam("id") Integer id, 
 								@RequestParam("typeId") Integer typeId,
-								ModelMap model) {
+								ModelMap model,
+								HttpSession session) {
 		
 		unitService.changeTypeByIds(id, typeId); 
 		
 		System.out.println("Save Type for unit (ID): " + id + ". New type (ID): " + typeId);
 			
-		return showUnitForm(id, model);
+		return showUnitForm(id, model, session);
 	}
 	
 	
@@ -358,9 +365,34 @@ public class UnitController {
 					params = {"mode=cancelTypeSelect", "id"}, 
 					method = RequestMethod.POST,
 					produces = "text/plain;charset=UTF-8")
-	public String cancelTypeSelect(@RequestParam("id") Integer id, ModelMap model) {
-		return showUnitForm(id, model);
+	public String cancelTypeSelect(@RequestParam("id") Integer id, ModelMap model, HttpSession session) {
+		return showUnitForm(id, model, session);
 	}
 	
+	
+	
+	
+	// Language change
+	
+	
+	
+	@RequestMapping(value = "/unitListAction", params="lang")
+	public String languageChangeFromUnitForm(HttpSession session, ModelMap model){
+		Integer id = (Integer) session.getAttribute("unitId");
+		if (id != null && id > 0) {
+			return showUnitForm(id, model, session);
+		}
+		else{
+			return showUnitList(model);
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/unitFormAction", params="lang")
+	public String languageChangeFromUnitFromLists(HttpSession session, ModelMap model){
+			return languageChangeFromUnitForm(session, model);
+	}
+
 	
 }

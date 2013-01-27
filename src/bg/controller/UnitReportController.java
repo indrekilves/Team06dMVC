@@ -63,12 +63,14 @@ public class UnitReportController {
 	
 	
 	@RequestMapping(value = "/showUnitReport")
-	public String showUnitReport(ModelMap model){
+	public String showUnitReport(ModelMap model, HttpSession session){
 	  			
 		System.out.println("Show UnitReport");
 	  	
 	  	model.addAttribute("date", new Date());
 	  	model.addAttribute("types", typeDao.getAllTypes());
+	  	
+    	session.setAttribute("unitId", null);
 	  	
 	  	return "unitReport";
 	}
@@ -82,8 +84,13 @@ public class UnitReportController {
 	
 
 	public String returnToReport(HttpSession session, ModelMap model) {
+        Integer unitId 	= (Integer) session.getAttribute("unitId");
         Integer typeId 	= (Integer) session.getAttribute("typeId");
         Date date 		= (Date) 	session.getAttribute("date");
+        
+        if (unitId != null) {
+        	session.setAttribute("unitId", null);
+        }
 		return refreshReport(typeId, date, session, model);
 	}
 	
@@ -120,7 +127,7 @@ public class UnitReportController {
 	@RequestMapping(value  = "/unitReportAction", 
 					params = {"mode=showSelectedEntry", "id"},
 					method = RequestMethod.POST)
-	public String showUnitReadOnlyForm(@RequestParam("id") Integer id, ModelMap model){
+	public String showUnitReadOnlyForm(@RequestParam("id") Integer id, ModelMap model, HttpSession session){
 	
 		System.out.println("Show Unit Form in readOnly for Unit (ID): " + id );
 
@@ -131,11 +138,32 @@ public class UnitReportController {
 	  	model.addAttribute("bossUnits", bossUnits);
 	  	model.addAttribute("origin", "unitReport");
 	  	
+	  	session.setAttribute("unitId", id);
+	  	
 	  	return "unitForm";
 	}
 
 
 
+	
+	@RequestMapping(value = "/unitReportAction", params="lang")
+	public String languageChange(HttpSession session, ModelMap model){
+		Integer unitId = (Integer) session.getAttribute("unitId");
+        Integer typeId 	= (Integer) session.getAttribute("typeId");
+        Date date 		= (Date) 	session.getAttribute("date");
+		if (unitId != null && unitId > 0) {
+			return showUnitReadOnlyForm(unitId, model, session);
+		}
+		else if (typeId != null && typeId > 0 && date != null){
+			return returnToReport(session, model);
+		}
+		else {
+			return showUnitReport(model, session);
+		}
+			
+	}
+	
+	
 
 	
 

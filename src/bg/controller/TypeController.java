@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -29,7 +30,6 @@ public class TypeController {
 
 	
 	// Properties
-	
 	
 	@Resource
 	private TypeDao typeDao;
@@ -118,7 +118,7 @@ public class TypeController {
 	
 	
 	@RequestMapping(value = "/typeListAction", params = {"mode=showSelectedEntry", "id"})
-	public String showTypeForm(@RequestParam("id") Integer id,  ModelMap model){
+	public String showTypeForm(@RequestParam("id") Integer id,  ModelMap model, HttpSession session){
 		Type type = typeDao.getTypeWithAssociationById(id);
 	  	List <Type> bossTypes = typeDao.getAllPossibleBossTypesByType(type); 
 
@@ -126,6 +126,8 @@ public class TypeController {
 	  	
 	  	model.addAttribute("type", type);
 	  	model.addAttribute("bossTypes", bossTypes);
+	  	
+	  	session.setAttribute("typeId", id);
 	  	
 	  	return "typeForm";
 	}
@@ -197,7 +199,8 @@ public class TypeController {
     								BindingResult bindingResult, 
     								@RequestParam("bossId") Integer bossId,
     								@RequestParam("subId") Integer subId, 
-    								ModelMap model) {
+    								ModelMap model,
+    								HttpSession session) {
 		// first save the type
 		String nextPage = saveTypeForm(type, bindingResult, bossId, model);
 		if (bindingResult.hasErrors()){
@@ -208,7 +211,7 @@ public class TypeController {
 
 		// then remove the subOrdinate
 		typeService.removeSubOrdinateByIds(type.getId(), subId);
-        return showTypeForm(type.getId(), model);
+        return showTypeForm(type.getId(), model, session);
     }
 
 	
@@ -245,16 +248,46 @@ public class TypeController {
 	
 	
 	@RequestMapping(value = "/addTypeSubordinateAction", params = {"mode=selectSubOrdinate", "id", "subId"}, method = RequestMethod.POST)
-	private String saveSubOrdinate(@RequestParam("id") Integer id, @RequestParam("subId") Integer subId, ModelMap model) {
+	private String saveSubOrdinate(	@RequestParam("id") Integer id, 
+									@RequestParam("subId") Integer subId, 
+									ModelMap model,
+									HttpSession session) {
 		typeService.addSubOrdinateByIds(id, subId);
 	  	System.out.println("Add subOrdinate (ID): " + subId + " from type (ID): " + id);
-		return showTypeForm(id, model);
+		return showTypeForm(id, model, session);
 	}
 	
 	
 	@RequestMapping(value = "/addTypeSubordinateAction", params = {"mode=cancelSubordinateSelect", "id"}, method = RequestMethod.POST)
-	private String cancelSubordinateSelect(@RequestParam("id") Integer id, ModelMap model) {
-		return showTypeForm(id, model);
+	private String cancelSubordinateSelect(@RequestParam("id") Integer id, ModelMap model, HttpSession session) {
+		return showTypeForm(id, model, session);
 	}
+	
+	
+	
+	
+	// Language change
+	
+	
+	
+	@RequestMapping(value = "/typeListAction", params="lang")
+	public String languageChangeFromTypeForm(HttpSession session, ModelMap model){
+		Integer id = (Integer) session.getAttribute("typeId");
+		if (id != null && id > 0) {
+			return showTypeForm(id, model, session);
+		}
+		else{
+			return showTypeList(model);
+		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/typeFormAction", params="lang")
+	public String languageChangeFromTypeFormList(HttpSession session, ModelMap model){
+		return languageChangeFromTypeForm(session, model);
+	}
+	
+	
 
 }
