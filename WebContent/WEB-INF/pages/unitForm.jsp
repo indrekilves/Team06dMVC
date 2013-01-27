@@ -36,7 +36,7 @@
 			
 			    <spring:hasBindErrors name="unit">
 			        <div class="formError">
-			        	<b>Errors:</b>
+			        	<b><spring:message code="unitForm.label.errors"/>:</b>
 			            <ul>
 				            <c:forEach var="error" items="${errors.allErrors}">
 				                <li>${error.defaultMessage}</li>

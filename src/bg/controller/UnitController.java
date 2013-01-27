@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -157,7 +158,7 @@ public class UnitController {
 					params   = "mode=saveForm", 
 					method   = RequestMethod.POST,
 					produces = "text/plain;charset=UTF-8")
-    public String saveUnitForm(	@ModelAttribute("unit") Unit unit, 
+    public String saveUnitForm(	@Valid @ModelAttribute("unit") Unit unit, 
     							BindingResult bindingResult, 
     							@RequestParam("bossId") Integer bossId, 
     							ModelMap model) {

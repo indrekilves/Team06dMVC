@@ -11,10 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
-
-import org.hibernate.validator.NotEmpty;
-import org.hibernate.validator.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
@@ -33,12 +32,12 @@ public class Type extends BaseEntity {
     @Column(name="type_id")
 	private Integer 					id;
 	
-	@NotNull
-	@NotEmpty(message = "Code is a required field")
+	@NotEmpty(message="{error.code.empty}")
+	@Size(min = 1, max = 10, message="{error.code.size}")
 	private String 						code;
 	
-	@NotNull
-	@NotEmpty(message = "Name is a required field")
+	@NotEmpty(message="{error.name.empty}")
+	@Size(min = 1, max = 100, message="{error.name.size}")
 	private String 						name;	
 
 	@DateTimeFormat(style="M-")

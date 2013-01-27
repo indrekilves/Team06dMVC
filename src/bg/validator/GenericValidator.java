@@ -19,11 +19,11 @@ public class GenericValidator implements Validator {
 
 	@Override
 	public void validate(Object obj, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", 		"required.name", 		"Name is required.");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", 		"required.code", 		"Code is required.");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromDate", 	"required.fromDate", 	"From Date is required.");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toDate", 	"required.toDate", 		"To Date is required.");
-		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromDate", 	"error.fromDate.empty", 	"From Date is required.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toDate", 	"error.toDate.empty", 	"To Date is required.");
+//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fromDate", "{error.fromDate.empty}", "{error.fromDate.empty}");
+//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "toDate", 	"error.toDate.empty", 	"error.toDate.empty");
+	
 		if (errors.hasErrors()) return;
 		
 		validateDates(obj, errors);
@@ -35,18 +35,21 @@ public class GenericValidator implements Validator {
 		Date toDate   = getToDate(obj);
 
 		if (fromDate == null){
-			errors.rejectValue("fromDate", "fromDate.badFormat", "From date must with format dd.mm.yyyy");	
+			errors.rejectValue("fromDate", "error.fromDate.badFormat", "From date must with format dd.mm.yyyy");	
+//			errors.rejectValue("fromDate", "error.fromDate.badFormat");
 			return;
 		}
 			
 		if (toDate == null){
-			errors.rejectValue("toDate", "toDate.badFormat", "To date must with format dd.mm.yyyy");	
+			errors.rejectValue("toDate", "error.toDate.badFormat", "To date must with format dd.mm.yyyy");	
 			return;
 		}
 		
 		
 		if (fromDate.after(toDate)){
 			errors.rejectValue("fromDate", "fromDate.afterToDate","From date must be before To date");	
+//			errors.rejectValue("fromDate", "error.fromDate.afterToDate");
+
 		}		
 	}
 

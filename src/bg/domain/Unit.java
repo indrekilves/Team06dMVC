@@ -11,7 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -29,9 +31,14 @@ public class Unit extends BaseEntity{
     @Column(name="unit_id")
 	private Integer 					id;
 	
+	@NotEmpty(message="{error.code.empty}")
+	@Size(min = 1, max = 10, message="{error.code.size}")
 	private String 						code;
 	
+	@NotEmpty(message="{error.name.empty}")
+	@Size(min = 1, max = 100, message="{error.name.size}")
 	private String 						name;	
+
 
 	@DateTimeFormat(style="M-")
     @Temporal( TemporalType.DATE)

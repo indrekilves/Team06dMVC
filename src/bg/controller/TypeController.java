@@ -5,9 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
-//import org.hibernate.validator.Valid;
-//import javax.validation.Valid; 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -131,16 +130,16 @@ public class TypeController {
 	  	return "typeForm";
 	}
 	
+
 	
-	
-	
+
 	// Save type
 	
 	
 	
 	
 	@RequestMapping(value = "/typeFormAction", params = "mode=saveForm", method = RequestMethod.POST)
-    public String saveTypeForm(@ModelAttribute("type") Type type, BindingResult bindingResult, @RequestParam("bossId") Integer bossId, ModelMap model) {
+    public String saveTypeForm(@Valid @ModelAttribute("type") Type type, BindingResult bindingResult, @RequestParam("bossId") Integer bossId, ModelMap model) {
  		
 		typeValidator.validate(type, bindingResult);
 		if (bindingResult.hasErrors()) {
